@@ -21,7 +21,7 @@ void main() async {
           bodyLarge: TextStyle(),
           bodyMedium: TextStyle(),
         ).apply(
-          bodyColor: textPrimary,
+          bodyColor: textSecondary,
           displayColor: textPrimary,
         ),
         useMaterial3: true,
