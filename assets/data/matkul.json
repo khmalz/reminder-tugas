@@ -1,0 +1,40 @@
+{
+   "mata_kuliah": [
+      {
+         "title": "Matematika Diskret",
+         "code": "matematika_diskret"
+      },
+      {
+         "title": "Dasar-Dasar Pemrograman",
+         "code": "dasar_dasar_pemrograman"
+      },
+      {
+         "title": "Bahasa Inggris",
+         "code": "bahasa_inggris"
+      },
+      {
+         "title": "Pancasila",
+         "code": "pancasila"
+      },
+      {
+         "title": "Bahasa Indonesia",
+         "code": "bahasa_indonesia"
+      },
+      {
+         "title": "Kalkulus Diferensial",
+         "code": "kalkulus_diferensial"
+      },
+      {
+         "title": "Statistika dan Probabilitas",
+         "code": "statistika_dan_probabilitas"
+      },
+      {
+         "title": "Pengantar TIK",
+         "code": "pengantar_tik"
+      },
+      {
+         "title": "Olimpisme",
+         "code": "olimpisme"
+      }
+   ]
+}

@@ -43,35 +43,25 @@ class CreateTugasView extends GetView<CreateTugasController> {
                           popupProps: const PopupProps.menu(
                             showSearchBox: true,
                           ),
-                          itemAsString: (item) => item['label'],
-                          // clearButtonProps: const ClearButtonProps(isVisible: true),
-                          items: const [
-                            {
-                              "label": "JNE",
-                              "code": "jne",
-                            },
-                            {
-                              "label": "POS Indonesia",
-                              "code": "pos",
-                            },
-                            {
-                              "label": "TIKI",
-                              "code": "tiki",
-                            },
-                          ],
+                          itemAsString: (item) => item['title'],
+                          items: controller.matkulList, // List dari JSON
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
                               border: OutlineInputBorder(),
                               focusedBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: primary,
+                                  color: Colors
+                                      .blue, // Sesuaikan warna dengan tema
                                 ),
                               ),
                               labelText: "Mata Kuliah",
                               errorText: null,
                             ),
                           ),
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            controller.matkul.value =
+                                value as Map<String, dynamic>;
+                          },
                           selectedItem: controller.matkul.value,
                         ),
                       ),
@@ -91,23 +81,24 @@ class CreateTugasView extends GetView<CreateTugasController> {
                     Expanded(
                       child: Obx(
                         () => DropdownSearch<Map<String, dynamic>>(
-                          popupProps: const PopupProps.menu(
-                            showSearchBox: true,
-                          ),
-                          itemAsString: (item) => item['label'],
+                          itemAsString: (item) => item['title'],
                           // clearButtonProps: const ClearButtonProps(isVisible: true),
                           items: const [
                             {
-                              "label": "JNE",
-                              "code": "jne",
+                              "title": "Makalah",
+                              "code": "makalah",
                             },
                             {
-                              "label": "POS Indonesia",
-                              "code": "pos",
+                              "title": "Soal",
+                              "code": "soal",
                             },
                             {
-                              "label": "TIKI",
-                              "code": "tiki",
+                              "title": "PPT",
+                              "code": "ppt",
+                            },
+                            {
+                              "title": "Project",
+                              "code": "project",
                             },
                           ],
                           dropdownDecoratorProps: DropDownDecoratorProps(
@@ -123,7 +114,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                             ),
                           ),
                           onChanged: (value) {},
-                          selectedItem: controller.matkul.value,
+                          selectedItem: controller.jenisTugas.value,
                         ),
                       ),
                     ),
@@ -145,20 +136,16 @@ class CreateTugasView extends GetView<CreateTugasController> {
                           popupProps: const PopupProps.menu(
                             showSearchBox: true,
                           ),
-                          itemAsString: (item) => item['label'],
+                          itemAsString: (item) => item['title'],
                           // clearButtonProps: const ClearButtonProps(isVisible: true),
                           items: const [
                             {
-                              "label": "JNE",
-                              "code": "jne",
+                              "title": "Individu",
+                              "code": "individu",
                             },
                             {
-                              "label": "POS Indonesia",
-                              "code": "pos",
-                            },
-                            {
-                              "label": "TIKI",
-                              "code": "tiki",
+                              "title": "Kelompok",
+                              "code": "kelompok",
                             },
                           ],
                           dropdownDecoratorProps: DropDownDecoratorProps(
@@ -174,7 +161,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                             ),
                           ),
                           onChanged: (value) {},
-                          selectedItem: controller.matkul.value,
+                          selectedItem: controller.tipeTugas.value,
                         ),
                       ),
                     ),
@@ -196,20 +183,24 @@ class CreateTugasView extends GetView<CreateTugasController> {
                           popupProps: const PopupProps.menu(
                             showSearchBox: true,
                           ),
-                          itemAsString: (item) => item['label'],
+                          itemAsString: (item) => item['title'],
                           // clearButtonProps: const ClearButtonProps(isVisible: true),
                           items: const [
                             {
-                              "label": "JNE",
-                              "code": "jne",
+                              "title": "LMS",
+                              "code": "lms",
                             },
                             {
-                              "label": "POS Indonesia",
-                              "code": "pos",
+                              "title": "Teams",
+                              "code": "teams",
                             },
                             {
-                              "label": "TIKI",
-                              "code": "tiki",
+                              "title": "Drive",
+                              "code": "drive",
+                            },
+                            {
+                              "title": "GCR",
+                              "code": "gcr",
                             },
                           ],
                           dropdownDecoratorProps: DropDownDecoratorProps(
@@ -225,7 +216,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                             ),
                           ),
                           onChanged: (value) {},
-                          selectedItem: controller.matkul.value,
+                          selectedItem: controller.pengumpulan.value,
                         ),
                       ),
                     ),
@@ -263,6 +254,9 @@ class CreateTugasView extends GetView<CreateTugasController> {
                                         value: controller.dates, // Nilai awal
                                         onValueChanged: (dates) {
                                           controller.dates.value = dates;
+                                          controller.deadline.value =
+                                              DateFormat('d MMM yyyy')
+                                                  .format(controller.dates[0]!);
                                         },
                                       ),
                                     ),
@@ -286,8 +280,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                               hintText: controller.dates.isEmpty ||
                                       controller.dates[0] == null
                                   ? 'Pilih tanggal'
-                                  : DateFormat('d MMM yyyy')
-                                      .format(controller.dates[0]!),
+                                  : controller.deadline.value,
                               border: OutlineInputBorder(),
                             ),
                           ),
@@ -297,6 +290,29 @@ class CreateTugasView extends GetView<CreateTugasController> {
                   ],
                 ),
                 const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      foregroundColor: textPrimary,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20,
+                      ),
+                    ),
+                    child: Text(
+                      'Save',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
