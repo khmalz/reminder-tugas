@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../data/component/list_tugas.dart';
 import '../../../data/constant/color.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -119,7 +120,7 @@ class HomeView extends GetView<HomeController> {
         width: 70,
         height: 70,
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () => Get.toNamed(Routes.CREATE_TUGAS),
           backgroundColor: primary,
           child: Icon(Icons.add, color: textPrimary),
         ),
