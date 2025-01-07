@@ -39,30 +39,43 @@ class CreateTugasView extends GetView<CreateTugasController> {
                     ),
                     Expanded(
                       child: Obx(
-                        () => DropdownSearch<Map<String, dynamic>>(
-                          popupProps: const PopupProps.menu(
-                            showSearchBox: true,
-                          ),
-                          itemAsString: (item) => item['title'],
-                          items: controller.matkulList, // List dari JSON
-                          dropdownDecoratorProps: DropDownDecoratorProps(
-                            dropdownSearchDecoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors
-                                      .blue, // Sesuaikan warna dengan tema
-                                ),
+                        () => TextField(
+                          controller: controller.matkul,
+                          style: const TextStyle(color: Colors.white),
+                          onChanged: (value) {
+                            value.isNotEmpty
+                                ? controller.errorMatkul.value = null
+                                : null;
+                          },
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 15),
+                            hintStyle: TextStyle(
+                              color: Colors.black45,
+                            ),
+                            hintText: "Input Matkul",
+                            filled: true,
+                            fillColor: Colors.white12,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 1.4,
                               ),
-                              labelText: "Mata Kuliah",
-                              errorText: null,
+                            ),
+                            errorText: controller.errorMatkul.value,
+                            errorStyle: const TextStyle(
+                                color: Colors.red, fontSize: 14),
+                            errorBorder: OutlineInputBorder(
+                              borderSide:
+                                  const BorderSide(color: Colors.red, width: 2),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide:
+                                  const BorderSide(color: Colors.red, width: 2),
                             ),
                           ),
-                          onChanged: (value) {
-                            controller.matkul.value =
-                                value as Map<String, dynamic>;
-                          },
-                          selectedItem: controller.matkul.value,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.next,
                         ),
                       ),
                     ),
@@ -233,55 +246,80 @@ class CreateTugasView extends GetView<CreateTugasController> {
                       ),
                     ),
                     Expanded(
-                      child: GestureDetector(
-                        child: Obx(
-                          () => TextField(
-                            onTap: () async {
-                              // Menampilkan alert dialog saat area disentuh dan menunggu hasilnya
-                              await showDialog<List<DateTime?>>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text('Deadline'),
-                                    content: SizedBox(
-                                      width: 300,
-                                      height: 350,
-                                      child: CalendarDatePicker2(
-                                        config: CalendarDatePicker2Config(
-                                          calendarType:
-                                              CalendarDatePicker2Type.single,
+                      child: Obx(
+                        () => TextField(
+                          onTap: () async {
+                            await showDialog<List<DateTime?>>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  insetPadding: EdgeInsets.all(10),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 450,
+                                    padding: EdgeInsets.all(16),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Pilih Tanggal',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
                                         ),
-                                        value: controller.dates, // Nilai awal
-                                        onValueChanged: (dates) {
-                                          controller.dates.value = dates;
-                                          controller.deadline.value =
-                                              DateFormat('d MMM yyyy')
-                                                  .format(controller.dates[0]!);
-                                        },
-                                      ),
+                                        Flexible(
+                                          child: CalendarDatePicker2(
+                                            config: CalendarDatePicker2Config(
+                                              calendarType:
+                                                  CalendarDatePicker2Type
+                                                      .single,
+                                            ),
+                                            value: controller.dates,
+                                            onValueChanged: (dates) {
+                                              controller.dates.value = dates;
+                                              controller.deadline.value =
+                                                  DateFormat('d MMM yyyy')
+                                                      .format(
+                                                          controller.dates[0]!);
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context)
+                                                    .pop(controller.dates);
+                                              },
+                                              child: Text('OK'),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop(controller
-                                              .dates); // Kembalikan tanggal yang dipilih
-                                        },
-                                        child: Text('OK'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
+                                  ),
+                                );
+                              },
+                            );
 
-                              // debugPrint(controller.dates.toString());
-                            },
-                            readOnly: true,
-                            decoration: InputDecoration(
-                              hintText: controller.dates.isEmpty ||
-                                      controller.dates[0] == null
-                                  ? 'Pilih tanggal'
-                                  : controller.deadline.value,
-                              border: OutlineInputBorder(),
+                            debugPrint(controller.dates.toString());
+                          },
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            hintStyle: TextStyle(
+                              color: Colors.black45,
+                            ),
+                            hintText: controller.dates.isEmpty ||
+                                    controller.dates[0] == null
+                                ? 'Pilih Tanggal'
+                                : controller.deadline.value,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 1.4,
+                              ),
                             ),
                           ),
                         ),
