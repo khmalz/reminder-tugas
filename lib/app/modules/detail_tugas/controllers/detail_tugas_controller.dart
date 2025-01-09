@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
+import 'package:reminder_tugas/app/data/models/task_model.dart';
 
 class DetailTugasController extends GetxController {
   String id = Get.parameters['id'].toString();
 
-  Future<Map<String, dynamic>?> loadTugasById(String id) async {
+  Future<Task?> loadTugasById(String id) async {
     String jsonString = await rootBundle.loadString('assets/data/tugas.json');
 
     Map<String, dynamic> jsonResponse = json.decode(jsonString);
@@ -18,6 +19,10 @@ class DetailTugasController extends GetxController {
       orElse: () => null,
     );
 
-    return tugasItem as Map<String, dynamic>?;
+    if (tugasItem != null) {
+      return Task.fromJson(tugasItem);
+    } else {
+      return null;
+    }
   }
 }

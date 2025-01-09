@@ -107,10 +107,10 @@ class HomeView extends GetView<HomeController> {
             children: controller.tugasList
                 .map((tugas) => ListTugas(
                       id: tugas['id'].toString(),
-                      namaTugas: tugas['namaTugas'],
+                      namaTugas: tugas['name'],
                       matkul: tugas['matkul'],
-                      tipe: tugas['tipe'],
-                      pengumpulan: tugas['pengumpulan'],
+                      tipe: tugas['type'],
+                      pengumpulan: tugas['collection'],
                       deadline: tugas['deadline'],
                     ))
                 .toList(),

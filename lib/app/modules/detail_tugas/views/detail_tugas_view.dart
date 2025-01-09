@@ -50,7 +50,7 @@ class DetailTugasView extends GetView<DetailTugasController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '${tugas['matkul']} - ${tugas['namaTugas']}',
+                        '${tugas.matkul} - ${tugas.name}',
                         style: TextStyle(fontSize: 20),
                       ),
                     ],
@@ -77,7 +77,7 @@ class DetailTugasView extends GetView<DetailTugasController> {
                                 style: TextStyle(fontSize: 20),
                               ),
                               Text(
-                                tugas['tipe'],
+                                tugas.type!,
                                 style: TextStyle(fontSize: 20),
                               ),
                             ],
@@ -91,7 +91,7 @@ class DetailTugasView extends GetView<DetailTugasController> {
                                 style: TextStyle(fontSize: 20),
                               ),
                               Text(
-                                tugas['pengumpulan'],
+                                tugas.collection!,
                                 style: TextStyle(fontSize: 20),
                               ),
                             ],
@@ -107,7 +107,7 @@ class DetailTugasView extends GetView<DetailTugasController> {
                               // Membungkus Text dalam Flexible
                               Flexible(
                                 child: Text(
-                                  "${tugas['deadline']}",
+                                  tugas.deadline!,
                                   style: TextStyle(fontSize: 20),
                                   maxLines: 2, // Mengatur jumlah maksimum baris
                                   overflow: TextOverflow
