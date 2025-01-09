@@ -41,28 +41,7 @@ class HomeView extends GetView<HomeController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      'Yang belum',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: textSecondary,
-                      ),
-                    ),
-                    Text(
-                      '10',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Yang sudah',
+                      'Telat',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -79,40 +58,62 @@ class HomeView extends GetView<HomeController> {
                     ),
                   ],
                 ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Belum',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: textSecondary,
+                      ),
+                    ),
+                    Text(
+                      '10',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.amber.shade700,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Sudah',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: textSecondary,
+                      ),
+                    ),
+                    Text(
+                      '10',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
           Column(
-            children: [
-              ListTugas(
-                namaTugas: "Makalah",
-                matkul: "Pancasila",
-                tipe: "Kelompok",
-                pengumpulan: "LMS",
-                deadline: "20 Sep 2024",
-              ),
-              ListTugas(
-                namaTugas: "Makalah",
-                matkul: "Pancasila",
-                tipe: "Individu",
-                pengumpulan: "LMS",
-                deadline: "20 Sep 2024",
-              ),
-              ListTugas(
-                namaTugas: "Makalah",
-                matkul: "Pancasila",
-                tipe: "Individu",
-                pengumpulan: "LMS",
-                deadline: "20 Sep 2024",
-              ),
-              ListTugas(
-                namaTugas: "Makalah",
-                matkul: "Pancasila",
-                tipe: "Individu",
-                pengumpulan: "LMS",
-                deadline: "20 Sep 2024",
-              ),
-            ],
+            children: controller.tugasList
+                .map((tugas) => ListTugas(
+                      id: tugas['id'].toString(),
+                      namaTugas: tugas['namaTugas'],
+                      matkul: tugas['matkul'],
+                      tipe: tugas['tipe'],
+                      pengumpulan: tugas['pengumpulan'],
+                      deadline: tugas['deadline'],
+                    ))
+                .toList(),
           )
         ],
       ),

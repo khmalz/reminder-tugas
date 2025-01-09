@@ -1,0 +1,36 @@
+{
+   "tugas": [
+      {
+         "id": 1,
+         "namaTugas": "Makalah",
+         "matkul": "Pancasila",
+         "tipe": "Kelompok",
+         "pengumpulan": "LMS",
+         "deadline": "20 Sep 2024"
+      },
+      {
+         "id": 2,
+         "namaTugas": "Soal",
+         "matkul": "Kalkulus Diferensial",
+         "tipe": "Individu",
+         "pengumpulan": "LMS",
+         "deadline": "14 Nov 2024"
+      },
+      {
+         "id": 3,
+         "namaTugas": "Soal",
+         "matkul": "Matematika Diskrit",
+         "tipe": "Individu",
+         "pengumpulan": "Drive",
+         "deadline": "17 Oct 2024"
+      },
+      {
+         "id": 4,
+         "namaTugas": "Problem",
+         "matkul": "Pemrograman",
+         "tipe": "Individu",
+         "pengumpulan": "Teams",
+         "deadline": "1 Oct 2024"
+      }
+   ]
+}
