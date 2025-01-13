@@ -41,7 +41,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                       child: Obx(
                         () => TextField(
                           controller: controller.matkul,
-                          style: const TextStyle(color: Colors.white),
+                          style: const TextStyle(color: textSecondary),
                           onChanged: (value) {
                             value.isNotEmpty
                                 ? controller.errorMatkul.value = null
@@ -62,9 +62,17 @@ class CreateTugasView extends GetView<CreateTugasController> {
                                 width: 1.4,
                               ),
                             ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 1.4,
+                              ),
+                            ),
                             errorText: controller.errorMatkul.value,
                             errorStyle: const TextStyle(
-                                color: Colors.red, fontSize: 14),
+                              color: Colors.red,
+                              fontSize: 14,
+                            ),
                             errorBorder: OutlineInputBorder(
                               borderSide:
                                   const BorderSide(color: Colors.red, width: 2),
@@ -248,6 +256,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                     Expanded(
                       child: Obx(
                         () => TextField(
+                          controller: controller.deadline,
                           onTap: () async {
                             await showDialog<List<DateTime?>>(
                               context: context,
@@ -276,7 +285,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                                             value: controller.dates,
                                             onValueChanged: (dates) {
                                               controller.dates.value = dates;
-                                              controller.deadline.value =
+                                              controller.deadline.text =
                                                   DateFormat('d MMM yyyy')
                                                       .format(
                                                           controller.dates[0]!);
@@ -314,8 +323,14 @@ class CreateTugasView extends GetView<CreateTugasController> {
                             hintText: controller.dates.isEmpty ||
                                     controller.dates[0] == null
                                 ? 'Pilih Tanggal'
-                                : controller.deadline.value,
+                                : controller.deadline.text,
                             enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 1.4,
+                              ),
+                            ),
+                            border: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: Colors.grey,
                                 width: 1.4,

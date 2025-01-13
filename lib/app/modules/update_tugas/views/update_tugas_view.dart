@@ -16,7 +16,7 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
       appBar: AppBar(
-        title: const Text('Buat Tugas'),
+        title: const Text('Update Tugas'),
         backgroundColor: primary,
         centerTitle: true,
         foregroundColor: textPrimary,
