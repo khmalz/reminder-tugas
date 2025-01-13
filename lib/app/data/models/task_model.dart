@@ -1,5 +1,5 @@
 class Task {
-  int? id;
+  String? id;
   String? name;
   String? matkul;
   String? type;
@@ -18,7 +18,7 @@ class Task {
   });
 
   Task.fromJson(Map<String, dynamic> json) {
-    id = json['id'] as int?;
+    id = json['id'] as String?;
     name = json['name'];
     matkul = json['matkul'];
     type = json['type'];
@@ -37,5 +37,10 @@ class Task {
     data['deadline'] = deadline;
     data['is_done'] = isDone;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'Task(id: $id, name: $name, matkul: $matkul, type: $type, collection: $collection, deadline: $deadline, isDone: $isDone)';
   }
 }

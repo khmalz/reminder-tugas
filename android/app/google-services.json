@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "387535762995",
+    "project_id": "remaind-tugas",
+    "storage_bucket": "remaind-tugas.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387535762995:android:ef90d5edd3e94d2cb91546",
+        "android_client_info": {
+          "package_name": "com.realz.reminder_tugas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9EPWNQzDPBdmU64syPmm42Y-ltc_WaK8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

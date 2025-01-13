@@ -20,7 +20,7 @@ class HomeView extends GetView<HomeController> {
         foregroundColor: textPrimary,
       ),
       body: FutureBuilder(
-          future: controller.loadTugas(),
+          future: controller.getTasks(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
