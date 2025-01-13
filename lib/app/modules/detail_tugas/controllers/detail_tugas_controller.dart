@@ -27,7 +27,7 @@ class DetailTugasController extends GetxController {
           isDone: doc['is_done'],
         );
 
-        debugPrint(task.toString());
+        // debugPrint(task.toString());
 
         return task;
       } else {

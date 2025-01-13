@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:reminder_tugas/app/data/constant/color.dart';
+import 'package:reminder_tugas/app/routes/app_pages.dart';
 
 import '../controllers/detail_tugas_controller.dart';
 
@@ -118,6 +119,25 @@ class DetailTugasView extends GetView<DetailTugasController> {
                           ),
                         ],
                       ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: ElevatedButton(
+                    onPressed: () => Get.toNamed(Routes.UPDATE_TUGAS,
+                        arguments: tugas.toJson()),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepOrange,
+                      minimumSize: const Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    child: Text(
+                      'Edit Tugas',
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
                 ),

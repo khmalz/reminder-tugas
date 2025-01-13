@@ -6,6 +6,8 @@ import '../modules/detail_tugas/bindings/detail_tugas_binding.dart';
 import '../modules/detail_tugas/views/detail_tugas_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/update_tugas/bindings/update_tugas_binding.dart';
+import '../modules/update_tugas/views/update_tugas_view.dart';
 
 part 'app_routes.dart';
 
@@ -29,6 +31,11 @@ class AppPages {
       name: _Paths.DETAIL_TUGAS,
       page: () => const DetailTugasView(),
       binding: DetailTugasBinding(),
+    ),
+    GetPage(
+      name: _Paths.UPDATE_TUGAS,
+      page: () => const UpdateTugasView(),
+      binding: UpdateTugasBinding(),
     ),
   ];
 }
