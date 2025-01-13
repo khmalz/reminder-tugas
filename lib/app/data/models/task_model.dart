@@ -5,6 +5,7 @@ class Task {
   String? type;
   String? collection;
   String? deadline;
+  bool isDone = false;
 
   Task({
     this.id,
@@ -13,6 +14,7 @@ class Task {
     this.type,
     this.collection,
     this.deadline,
+    this.isDone = false,
   });
 
   Task.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,7 @@ class Task {
     type = json['type'];
     collection = json['collection'];
     deadline = json['deadline'];
+    isDone = json['is_done'] ?? false;
   }
 
   Map<String, dynamic> toJson() {
@@ -32,6 +35,7 @@ class Task {
     data['type'] = type;
     data['collection'] = collection;
     data['deadline'] = deadline;
+    data['is_done'] = isDone;
     return data;
   }
 }

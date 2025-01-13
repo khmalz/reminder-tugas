@@ -126,6 +126,7 @@ class HomeView extends GetView<HomeController> {
                               tipe: tugas.type!,
                               pengumpulan: tugas.collection!,
                               deadline: tugas.deadline!,
+                              isDone: tugas.isDone,
                             ))
                         .toList(),
                   ),

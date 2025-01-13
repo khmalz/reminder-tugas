@@ -127,14 +127,14 @@ class DetailTugasView extends GetView<DetailTugasController> {
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: primary,
+                      backgroundColor: tugas.isDone ? Colors.red : primary,
                       minimumSize: const Size(double.infinity, 50),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
                     ),
                     child: Text(
-                      'Selesai',
+                      tugas.isDone ? 'Batalkan' : 'Selesaikan Tugas',
                       style: const TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),

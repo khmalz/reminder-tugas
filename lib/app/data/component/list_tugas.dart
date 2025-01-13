@@ -13,6 +13,7 @@ class ListTugas extends StatelessWidget {
     required this.tipe,
     required this.pengumpulan,
     required this.deadline,
+    this.isDone = false,
   });
 
   final String id;
@@ -21,6 +22,7 @@ class ListTugas extends StatelessWidget {
   final String tipe;
   final String pengumpulan;
   final String deadline;
+  final bool? isDone;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,7 @@ class ListTugas extends StatelessWidget {
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w500,
+              decoration: isDone == true ? TextDecoration.lineThrough : null,
             ),
           ),
           Text(
@@ -55,6 +58,7 @@ class ListTugas extends StatelessWidget {
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.orange,
+              decoration: isDone == true ? TextDecoration.lineThrough : null,
             ),
           ),
           Text(
