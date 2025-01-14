@@ -23,8 +23,7 @@ class HomeView extends GetView<HomeController> {
           future: controller.getTasks(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                  child: CircularProgressIndicator()); // Menunggu data
+              return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -63,7 +62,7 @@ class HomeView extends GetView<HomeController> {
                               ),
                             ),
                             Text(
-                              '10',
+                              controller.statList.value[0]['late'].toString(),
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -84,7 +83,8 @@ class HomeView extends GetView<HomeController> {
                               ),
                             ),
                             Text(
-                              '10',
+                              controller.statList.value[1]['pending']
+                                  .toString(),
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -105,7 +105,7 @@ class HomeView extends GetView<HomeController> {
                               ),
                             ),
                             Text(
-                              '10',
+                              controller.statList.value[2]['done'].toString(),
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
