@@ -20,11 +20,11 @@ class UpdateTugasController extends GetxController {
   void updateInput() {
     matkul.text = task.matkul!;
     jenisTugas.value =
-        specName.firstWhere((element) => element['code'] == task.name);
+        specName.firstWhere((element) => element['title'] == task.name);
     tipeTugas.value =
-        specType.firstWhere((element) => element['code'] == task.type);
+        specType.firstWhere((element) => element['title'] == task.type);
     pengumpulan.value = specCollection
-        .firstWhere((element) => element['code'] == task.collection);
+        .firstWhere((element) => element['title'] == task.collection);
     deadline.text = task.deadline!;
   }
 
