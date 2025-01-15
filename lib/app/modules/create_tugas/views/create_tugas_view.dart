@@ -134,7 +134,8 @@ class CreateTugasView extends GetView<CreateTugasController> {
                               errorText: null,
                             ),
                           ),
-                          onChanged: (value) {},
+                          onChanged: (value) =>
+                              controller.jenisTugas.value = value,
                           selectedItem: controller.jenisTugas.value,
                         ),
                       ),
@@ -181,7 +182,8 @@ class CreateTugasView extends GetView<CreateTugasController> {
                               errorText: null,
                             ),
                           ),
-                          onChanged: (value) {},
+                          onChanged: (value) =>
+                              controller.tipeTugas.value = value,
                           selectedItem: controller.tipeTugas.value,
                         ),
                       ),
@@ -236,7 +238,8 @@ class CreateTugasView extends GetView<CreateTugasController> {
                               errorText: null,
                             ),
                           ),
-                          onChanged: (value) {},
+                          onChanged: (value) =>
+                              controller.pengumpulan.value = value,
                           selectedItem: controller.pengumpulan.value,
                         ),
                       ),
@@ -286,7 +289,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                                             onValueChanged: (dates) {
                                               controller.dates.value = dates;
                                               controller.deadline.text =
-                                                  DateFormat('d MMM yyyy')
+                                                  DateFormat('d MMMM yyyy')
                                                       .format(
                                                           controller.dates[0]!);
                                             },
@@ -346,7 +349,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => controller.createTask(),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primary,
                       shape: RoundedRectangleBorder(
