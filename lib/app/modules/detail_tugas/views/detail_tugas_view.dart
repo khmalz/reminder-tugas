@@ -1,3 +1,4 @@
+import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -16,6 +17,19 @@ class DetailTugasView extends GetView<DetailTugasController> {
         backgroundColor: primary,
         centerTitle: true,
         foregroundColor: textPrimary,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.delete,
+              size: 27,
+            ),
+            onPressed: () async {
+              if (await confirm(context)) {
+                controller.deleteTask(controller.id);
+              }
+            },
+          ),
+        ],
       ),
       body: FutureBuilder(
         future: controller.loadTugasById(controller.id),

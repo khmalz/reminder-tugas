@@ -3,25 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:reminder_tugas/app/data/models/task_model.dart';
+import 'package:reminder_tugas/app/routes/app_pages.dart';
 
 class DetailTugasController extends GetxController {
   var db = FirebaseFirestore.instance;
   String id = Get.parameters['id'].toString();
 
+  Future<void> deleteTask(String id) async {
+    try {
+      await db.collection("tasks").doc(id).delete();
+
+      Get.offAllNamed(Routes.HOME);
+    } catch (e) {
+      debugPrint('Error deleting task: $e');
+    }
+  }
+
   Future<Task?> loadTugasById(String id) async {
     try {
-      // Mengambil dokumen tugas berdasarkan ID
       var doc = await db.collection("tasks").doc(id).get();
 
       // Memeriksa apakah dokumen ada
       if (doc.exists) {
         Task task = Task(
-          id: doc.id, // Menyimpan ID dokumen
+          id: doc.id,
           name: doc['name'],
           matkul: doc['matkul'],
           type: doc['type'],
           collection: doc['collection'],
-          // Mengonversi Timestamp menjadi format tanggal
           deadline: DateFormat('dd MMMM yyyy')
               .format((doc['deadline'] as Timestamp).toDate()),
           isDone: doc['is_done'],
@@ -38,23 +47,4 @@ class DetailTugasController extends GetxController {
       return null;
     }
   }
-
-  // Future<Task?> loadTugasById(String id) async {
-  //   String jsonString = await rootBundle.loadString('assets/data/tugas.json');
-
-  //   Map<String, dynamic> jsonResponse = json.decode(jsonString);
-  //   List<dynamic> tugasData = jsonResponse['tugas'];
-
-  //   // Mencari tugas dengan ID yang sesuai
-  //   var tugasItem = tugasData.firstWhere(
-  //     (t) => t['id'].toString() == id,
-  //     orElse: () => null,
-  //   );
-
-  //   if (tugasItem != null) {
-  //     return Task.fromJson(tugasItem);
-  //   } else {
-  //     return null;
-  //   }
-  // }
 }
