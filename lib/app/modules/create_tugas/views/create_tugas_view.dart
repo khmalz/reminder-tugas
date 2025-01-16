@@ -43,9 +43,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                           controller: controller.matkul,
                           style: const TextStyle(color: textSecondary),
                           onChanged: (value) {
-                            value.isNotEmpty
-                                ? controller.errorMatkul.value = null
-                                : null;
+                            controller.validateMatkul();
                           },
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.symmetric(
@@ -131,11 +129,18 @@ class CreateTugasView extends GetView<CreateTugasController> {
                                 ),
                               ),
                               labelText: "Jenis Tugas",
-                              errorText: null,
+                              errorText: controller.errorJenis.value,
+                              errorStyle: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
-                          onChanged: (value) =>
-                              controller.jenisTugas.value = value,
+                          onChanged: (value) {
+                            controller.jenisTugas.value = value;
+
+                            controller.validateJenis();
+                          },
                           selectedItem: controller.jenisTugas.value,
                         ),
                       ),
@@ -179,11 +184,18 @@ class CreateTugasView extends GetView<CreateTugasController> {
                                 ),
                               ),
                               labelText: "Tipe Tugas",
-                              errorText: null,
+                              errorText: controller.errorTipe.value,
+                              errorStyle: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
-                          onChanged: (value) =>
-                              controller.tipeTugas.value = value,
+                          onChanged: (value) {
+                            controller.tipeTugas.value = value;
+
+                            controller.validateTipe();
+                          },
                           selectedItem: controller.tipeTugas.value,
                         ),
                       ),
@@ -235,11 +247,18 @@ class CreateTugasView extends GetView<CreateTugasController> {
                                 ),
                               ),
                               labelText: "Pengumpulan",
-                              errorText: null,
+                              errorText: controller.errorPengumpulan.value,
+                              errorStyle: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
-                          onChanged: (value) =>
-                              controller.pengumpulan.value = value,
+                          onChanged: (value) {
+                            controller.pengumpulan.value = value;
+
+                            controller.validatePengumpulan();
+                          },
                           selectedItem: controller.pengumpulan.value,
                         ),
                       ),
@@ -292,6 +311,8 @@ class CreateTugasView extends GetView<CreateTugasController> {
                                                   DateFormat('d MMMM yyyy')
                                                       .format(
                                                           controller.dates[0]!);
+
+                                              controller.validateDeadline();
                                             },
                                           ),
                                         ),
@@ -327,6 +348,11 @@ class CreateTugasView extends GetView<CreateTugasController> {
                                     controller.dates[0] == null
                                 ? 'Pilih Tanggal'
                                 : controller.deadline.text,
+                            errorText: controller.errorDeadline.value,
+                            errorStyle: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 14,
+                            ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: Colors.grey,
