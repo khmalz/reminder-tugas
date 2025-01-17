@@ -1,10 +1,8 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:reminder_tugas/app/data/constant/spec_tugas.dart';
 
 import '../../../data/constant/color.dart';
 import '../controllers/create_tugas_controller.dart';
@@ -103,7 +101,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                         () => DropdownSearch<Map<String, dynamic>>(
                           itemAsString: (item) => item['title'],
                           // clearButtonProps: const ClearButtonProps(isVisible: true),
-                          items: specName,
+                          items: controller.specName,
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -149,7 +147,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                           ),
                           itemAsString: (item) => item['title'],
                           // clearButtonProps: const ClearButtonProps(isVisible: true),
-                          items: specType,
+                          items: controller.specType,
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -195,7 +193,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                           ),
                           itemAsString: (item) => item['title'],
                           // clearButtonProps: const ClearButtonProps(isVisible: true),
-                          items: specCollection,
+                          items: controller.specCollection,
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
                               border: OutlineInputBorder(),

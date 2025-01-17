@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:reminder_tugas/app/routes/app_pages.dart';
 
 class CreateTugasController extends GetxController {
@@ -18,6 +19,25 @@ class CreateTugasController extends GetxController {
   Rxn<String> errorDeadline = Rxn<String>(null);
 
   var db = FirebaseFirestore.instance;
+
+  final box = GetStorage();
+  List<Map<String, dynamic>> specName = [];
+  List<Map<String, dynamic>> specType = [];
+  List<Map<String, dynamic>> specCollection = [];
+
+  void getSpecTask() {
+    Map<String, dynamic> specTask = box.read('specTask')[0];
+
+    specName = specTask['name'];
+    specType = specTask['type'];
+    specCollection = specTask['collection'];
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    getSpecTask();
+  }
 
   bool validateMatkul() {
     if (matkul.text.isEmpty) {
