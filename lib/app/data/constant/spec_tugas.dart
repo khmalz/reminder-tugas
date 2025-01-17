@@ -15,6 +15,10 @@ const specName = [
     "title": "Project",
     "code": "project",
   },
+  {
+    "title": "Lainnya",
+    "code": "lainnya",
+  },
 ];
 
 const specType = [
@@ -44,5 +48,9 @@ const specCollection = [
   {
     "title": "GCR",
     "code": "gcr",
-  }
+  },
+  {
+    "title": "Lainnya",
+    "code": "lainnya",
+  },
 ];

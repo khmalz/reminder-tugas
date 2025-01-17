@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:reminder_tugas/app/data/constant/spec_tugas.dart';
 
 import '../../../data/constant/color.dart';
 import '../controllers/create_tugas_controller.dart';
@@ -102,24 +103,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                         () => DropdownSearch<Map<String, dynamic>>(
                           itemAsString: (item) => item['title'],
                           // clearButtonProps: const ClearButtonProps(isVisible: true),
-                          items: const [
-                            {
-                              "title": "Makalah",
-                              "code": "makalah",
-                            },
-                            {
-                              "title": "Soal",
-                              "code": "soal",
-                            },
-                            {
-                              "title": "PPT",
-                              "code": "ppt",
-                            },
-                            {
-                              "title": "Project",
-                              "code": "project",
-                            },
-                          ],
+                          items: specName,
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -165,16 +149,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                           ),
                           itemAsString: (item) => item['title'],
                           // clearButtonProps: const ClearButtonProps(isVisible: true),
-                          items: const [
-                            {
-                              "title": "Individu",
-                              "code": "individu",
-                            },
-                            {
-                              "title": "Kelompok",
-                              "code": "kelompok",
-                            },
-                          ],
+                          items: specType,
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -220,24 +195,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                           ),
                           itemAsString: (item) => item['title'],
                           // clearButtonProps: const ClearButtonProps(isVisible: true),
-                          items: const [
-                            {
-                              "title": "LMS",
-                              "code": "lms",
-                            },
-                            {
-                              "title": "Teams",
-                              "code": "teams",
-                            },
-                            {
-                              "title": "Drive",
-                              "code": "drive",
-                            },
-                            {
-                              "title": "GCR",
-                              "code": "gcr",
-                            },
-                          ],
+                          items: specCollection,
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
                               border: OutlineInputBorder(),
