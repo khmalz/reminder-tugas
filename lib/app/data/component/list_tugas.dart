@@ -29,7 +29,7 @@ class ListTugas extends StatelessWidget {
     return ListTile(
       onTap: () => Get.toNamed(Routes.DETAIL_TUGAS, parameters: {'id': id}),
       contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      tileColor: textPrimary,
+      tileColor: isDone != true ? textPrimary : fourth,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -45,6 +45,7 @@ class ListTugas extends StatelessWidget {
             "$tipe | $pengumpulan",
             style: TextStyle(
               fontSize: 20,
+              decoration: isDone == true ? TextDecoration.lineThrough : null,
             ),
           ),
         ],
@@ -66,6 +67,7 @@ class ListTugas extends StatelessWidget {
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w500,
+              decoration: isDone == true ? TextDecoration.lineThrough : null,
             ),
           ),
         ],
