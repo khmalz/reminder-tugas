@@ -159,7 +159,7 @@ class DetailTugasView extends GetView<DetailTugasController> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => controller.updateStatusTask(tugas.isDone),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: tugas.isDone ? Colors.red : primary,
                       minimumSize: const Size(double.infinity, 50),

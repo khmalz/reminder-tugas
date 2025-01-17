@@ -19,6 +19,16 @@ class DetailTugasController extends GetxController {
     }
   }
 
+  Future<void> updateStatusTask(bool status) async {
+    try {
+      await db.collection("tasks").doc(id).update({'is_done': !status});
+
+      Get.offAllNamed(Routes.HOME);
+    } catch (e) {
+      debugPrint('Error deleting task: $e');
+    }
+  }
+
   Future<Task?> loadTugasById(String id) async {
     try {
       var doc = await db.collection("tasks").doc(id).get();
