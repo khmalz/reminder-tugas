@@ -70,7 +70,9 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                             ),
                             errorText: controller.errorMatkul.value,
                             errorStyle: const TextStyle(
-                                color: Colors.red, fontSize: 14),
+                              color: Colors.red,
+                              fontSize: 14,
+                            ),
                             errorBorder: OutlineInputBorder(
                               borderSide:
                                   const BorderSide(color: Colors.red, width: 2),
@@ -112,10 +114,18 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                                 ),
                               ),
                               labelText: "Jenis Tugas",
-                              errorText: null,
+                              errorText: controller.errorJenis.value,
+                              errorStyle: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            controller.jenisTugas.value = value;
+
+                            controller.validateJenis();
+                          },
                           selectedItem: controller.jenisTugas.value,
                         ),
                       ),
@@ -150,10 +160,18 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                                 ),
                               ),
                               labelText: "Tipe Tugas",
-                              errorText: null,
+                              errorText: controller.errorTipe.value,
+                              errorStyle: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            controller.tipeTugas.value = value;
+
+                            controller.validateTipe();
+                          },
                           selectedItem: controller.tipeTugas.value,
                         ),
                       ),
@@ -188,10 +206,18 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                                 ),
                               ),
                               labelText: "Pengumpulan",
-                              errorText: null,
+                              errorText: controller.errorPengumpulan.value,
+                              errorStyle: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            controller.pengumpulan.value = value;
+
+                            controller.validatePengumpulan();
+                          },
                           selectedItem: controller.pengumpulan.value,
                         ),
                       ),
@@ -244,6 +270,8 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                                                   DateFormat('d MMMM yyyy')
                                                       .format(
                                                           controller.dates[0]!);
+
+                                              controller.validateDeadline();
                                             },
                                           ),
                                         ),
@@ -279,6 +307,11 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                                     controller.dates[0] == null
                                 ? 'Pilih Tanggal'
                                 : controller.deadline.text,
+                            errorText: controller.errorDeadline.value,
+                            errorStyle: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 14,
+                            ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: Colors.grey,
@@ -301,7 +334,7 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => controller.updateTask(),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primary,
                       shape: RoundedRectangleBorder(
