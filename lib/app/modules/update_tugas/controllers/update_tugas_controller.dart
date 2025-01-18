@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
-import 'package:reminder_tugas/app/data/constant/spec_tugas.dart';
 import 'package:reminder_tugas/app/data/models/task_model.dart';
 import 'package:reminder_tugas/app/routes/app_pages.dart';
 
@@ -22,6 +22,19 @@ class UpdateTugasController extends GetxController {
   Rxn<String> errorPengumpulan = Rxn<String>(null);
   Rxn<String> errorDeadline = Rxn<String>(null);
 
+  final box = GetStorage();
+  List<Map<String, dynamic>> specName = [];
+  List<Map<String, dynamic>> specType = [];
+  List<Map<String, dynamic>> specCollection = [];
+
+  Future<void> getSpecTask() async {
+    Map<String, dynamic> specTask = await box.read('specTask')[0];
+
+    specName = specTask['name'];
+    specType = specTask['type'];
+    specCollection = specTask['collection'];
+  }
+
   var db = FirebaseFirestore.instance;
   void updateInput() {
     matkul.text = task.matkul!;
@@ -36,8 +49,10 @@ class UpdateTugasController extends GetxController {
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    await getSpecTask();
+
     updateInput();
   }
 
