@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_popup/flutter_popup.dart';
 
 import 'package:get/get.dart';
 
@@ -18,6 +19,39 @@ class HomeView extends GetView<HomeController> {
         backgroundColor: primary,
         centerTitle: true,
         foregroundColor: textPrimary,
+        actions: [
+          CustomPopup(
+            showArrow: false,
+            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            barrierColor: Colors.transparent,
+            contentDecoration: BoxDecoration(
+              color: Colors.white,
+            ),
+            content: SizedBox(
+              width: 0.4 * Get.width,
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextButton.icon(
+                      onPressed: () {
+                        Get.toNamed(Routes.CATEGORY);
+                      },
+                      icon: const Icon(
+                        Icons.content_paste,
+                        size: 30,
+                      ),
+                      label: const Text('Kategori',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                          )),
+                    ),
+                  ]),
+            ),
+            child: Icon(Icons.more_vert),
+          ),
+        ],
       ),
       body: FutureBuilder(
           future: controller.getTasks(),

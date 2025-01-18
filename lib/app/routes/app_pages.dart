@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/category/bindings/category_binding.dart';
+import '../modules/category/views/category_view.dart';
 import '../modules/create_tugas/bindings/create_tugas_binding.dart';
 import '../modules/create_tugas/views/create_tugas_view.dart';
 import '../modules/detail_tugas/bindings/detail_tugas_binding.dart';
@@ -43,6 +45,11 @@ class AppPages {
       name: _Paths.UPDATE_TUGAS,
       page: () => const UpdateTugasView(),
       binding: UpdateTugasBinding(),
+    ),
+    GetPage(
+      name: _Paths.CATEGORY,
+      page: () => const CategoryView(),
+      binding: CategoryBinding(),
     ),
   ];
 }

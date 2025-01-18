@@ -8,6 +8,7 @@ abstract class Routes {
   static const DETAIL_TUGAS = _Paths.DETAIL_TUGAS;
   static const UPDATE_TUGAS = _Paths.UPDATE_TUGAS;
   static const SPLASH = _Paths.SPLASH;
+  static const CATEGORY = _Paths.CATEGORY;
 }
 
 abstract class _Paths {
@@ -17,4 +18,5 @@ abstract class _Paths {
   static const DETAIL_TUGAS = '/detail-tugas';
   static const UPDATE_TUGAS = '/update-tugas';
   static const SPLASH = '/splash';
+  static const CATEGORY = '/category';
 }
