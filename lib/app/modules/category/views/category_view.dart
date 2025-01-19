@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:flutter/material.dart';
 
@@ -67,9 +68,26 @@ class CategoryView extends GetView<CategoryController> {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.edit, size: 32),
-                      const SizedBox(width: 10),
-                      const Icon(Icons.delete, size: 32),
+                      IconButton(
+                        onPressed: () async {
+                          final result = await showOkCancelAlertDialog(
+                            context: context,
+                            title: 'Hapus Kategori',
+                            message:
+                                'Menghapus kategori ini maka menghapus juga data yang berkaitan dengan ini, apakah anda yakin ingin menghapus kategori ini?',
+                            okLabel: "Hapus",
+                          );
+
+                          if (result == OkCancelResult.ok) {
+                            controller.deleteSpec('name', item['code']);
+                          }
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          size: 32,
+                          color: textSecondary,
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -93,9 +111,26 @@ class CategoryView extends GetView<CategoryController> {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.edit, size: 32),
-                      const SizedBox(width: 10),
-                      const Icon(Icons.delete, size: 32),
+                      IconButton(
+                        onPressed: () async {
+                          final result = await showOkCancelAlertDialog(
+                            context: context,
+                            title: 'Hapus Kategori',
+                            message:
+                                'Menghapus kategori ini maka menghapus juga data yang berkaitan dengan ini, apakah anda yakin ingin menghapus kategori ini?',
+                            okLabel: "Hapus",
+                          );
+
+                          if (result == OkCancelResult.ok) {
+                            controller.deleteSpec('type', item['code']);
+                          }
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          size: 32,
+                          color: textSecondary,
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -108,7 +143,9 @@ class CategoryView extends GetView<CategoryController> {
               itemBuilder: (context, index) {
                 final item = controller.specCollection[index];
                 return ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    debugPrint(item['code']);
+                  },
                   title: Text(
                     item['title'] ?? 'No Title',
                     style: TextStyle(
@@ -119,9 +156,26 @@ class CategoryView extends GetView<CategoryController> {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.edit, size: 32),
-                      const SizedBox(width: 10),
-                      const Icon(Icons.delete, size: 32),
+                      IconButton(
+                        onPressed: () async {
+                          final result = await showOkCancelAlertDialog(
+                            context: context,
+                            title: 'Hapus Kategori',
+                            message:
+                                'Menghapus kategori ini maka menghapus juga data yang berkaitan dengan ini, apakah anda yakin ingin menghapus kategori ini?',
+                            okLabel: "Hapus",
+                          );
+
+                          if (result == OkCancelResult.ok) {
+                            controller.deleteSpec('collection', item['code']);
+                          }
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          size: 32,
+                          color: textSecondary,
+                        ),
+                      ),
                     ],
                   ),
                 );
