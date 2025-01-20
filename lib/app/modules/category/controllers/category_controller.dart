@@ -1,14 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:reminder_tugas/app/data/provider/spec_task_provider.dart';
 import 'package:reminder_tugas/app/helper/spec.dart' as helper;
 
 class CategoryController extends GetxController {
-  var db = FirebaseFirestore.instance;
-
+  // VALIDATION
   TextEditingController category = TextEditingController();
+  Rxn<Map<String, dynamic>> jenis = Rxn<Map<String, dynamic>>(null);
+
   Rxn<String> errorCategory = Rxn<String>(null);
+  Rxn<String> errorJenis = Rxn<String>(null);
+
   bool validateCategory() {
     if (category.text.isEmpty) {
       errorCategory.value = 'Kategori harus diisi';
@@ -21,8 +24,6 @@ class CategoryController extends GetxController {
     }
   }
 
-  Rxn<Map<String, dynamic>> jenis = Rxn<Map<String, dynamic>>(null);
-  Rxn<String> errorJenis = Rxn<String>(null);
   bool validateJenis() {
     if (jenis.value == null) {
       errorJenis.value = 'Jenis tugas harus dipilih';
@@ -35,35 +36,64 @@ class CategoryController extends GetxController {
     }
   }
 
+  // Firebase
+  SpecTaskProvider specTaskProvider = SpecTaskProvider();
+
   Future<void> addSpecTask() async {
-    debugPrint('addSpecTask');
+    try {
+      var docId = jenis.value!['code'];
+      var dataNew = {
+        'title': category.text.trim(),
+        'code': category.text.trim().toLowerCase().replaceAll(' ', '_'),
+      };
 
-    var docId = jenis.value!['code'];
-    var dataNew = {
-      'title': category.text.trim(),
-      'code': category.text.trim().toLowerCase().replaceAll(' ', '_')
-    };
-
-    final docSnapshot = await db.collection('specs').doc(docId).get();
-
-    if (docSnapshot.exists) {
-      final data = docSnapshot.data()!;
-      final keys = data.keys.map((key) => int.tryParse(key) ?? -1).toList();
-      final newKey =
-          (keys.isEmpty ? 0 : keys.reduce((a, b) => a > b ? a : b) + 1)
-              .toString();
-
-      await db.collection('specs').doc(docId).update({
-        newKey: dataNew,
-      });
+      await specTaskProvider.addSpec(docId, dataNew);
 
       await addSpecFromStorage(docId, dataNew);
       await helper.getSpecTask();
 
       clearInput();
-      debugPrint("Data added with key: $newKey");
-    } else {
-      debugPrint("Document $docId does not exist.");
+      debugPrint("Data added successfully to document: $docId");
+    } catch (e) {
+      debugPrint("Error adding spec: $e");
+    }
+  }
+
+  Future<String?> getSpecKey(String docId, String dataValue) async {
+    try {
+      String? resultID = await specTaskProvider.getSpecKey(docId, dataValue);
+
+      if (resultID == null) {
+        debugPrint("Error getting document");
+      } else if (resultID.isEmpty) {
+        debugPrint("Document doesn't exist");
+      }
+
+      return resultID;
+    } catch (e) {
+      debugPrint("Error in controller: $e");
+      return null;
+    }
+  }
+
+  Future<void> deleteSpec(String id, String data) async {
+    try {
+      String? dataId = await getSpecKey(id, data);
+
+      if (dataId != null) {
+        await specTaskProvider.deleteSpec(id, dataId);
+
+        debugPrint("Key $dataId deleted successfully!");
+      } else {
+        debugPrint("Error deleting key $dataId");
+      }
+
+      await deleteSpecFromStorage(id, data);
+      await helper.getSpecTask();
+
+      getSpecTask();
+    } catch (e) {
+      debugPrint("Error deleting spec: $e");
     }
   }
 
@@ -72,6 +102,7 @@ class CategoryController extends GetxController {
     jenis.value = null;
   }
 
+  // STORAGE
   final box = GetStorage();
   RxList<Map<String, dynamic>> specName = <Map<String, dynamic>>[].obs;
   RxList<Map<String, dynamic>> specType = <Map<String, dynamic>>[].obs;
@@ -84,50 +115,6 @@ class CategoryController extends GetxController {
     specType.value = List<Map<String, dynamic>>.from(specTask['type']);
     specCollection.value =
         List<Map<String, dynamic>>.from(specTask['collection']);
-  }
-
-  Future<String?> getSpecKey(String docId, String dataValue) async {
-    try {
-      DocumentSnapshot doc = await db.collection('specs').doc(docId).get();
-
-      if (doc.exists) {
-        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-
-        var resultID = data.keys.firstWhere(
-          (key) => data[key]['code'] == dataValue,
-        );
-
-        return resultID;
-      } else {
-        debugPrint("Document does not exist.");
-        return null;
-      }
-    } catch (e) {
-      debugPrint("Error getting document: $e");
-      return null;
-    }
-  }
-
-  Future<void> deleteSpec(String id, String data) async {
-    try {
-      String? dataId = await getSpecKey(id, data);
-
-      if (dataId != null) {
-        await FirebaseFirestore.instance.collection('specs').doc(id).update({
-          dataId: FieldValue.delete(),
-        });
-        debugPrint("Key $dataId deleted successfully!");
-      } else {
-        debugPrint("Invalid key: $dataId");
-      }
-
-      await deleteSpecFromStorage(id, data);
-      await helper.getSpecTask();
-
-      getSpecTask();
-    } catch (e) {
-      debugPrint('Error updating spec: $e');
-    }
   }
 
   Future<void> addSpecFromStorage(String id, Map<String, dynamic> data) async {
