@@ -11,8 +11,6 @@ class CategoryController extends GetxController {
   RxList<Map<String, dynamic>> specCollection = <Map<String, dynamic>>[].obs;
 
   void getSpecTask() async {
-    await helper.getSpecTask();
-
     var specTask = await box.read('specTask')[0];
 
     specName.value = List<Map<String, dynamic>>.from(specTask['name']);
@@ -58,7 +56,30 @@ class CategoryController extends GetxController {
         debugPrint("Invalid key: $dataId");
       }
 
+      await deleteSpecFromStorage(id, data);
+      await helper.getSpecTask();
+
       getSpecTask();
+    } catch (e) {
+      debugPrint('Error updating spec: $e');
+    }
+  }
+
+  Future<void> deleteSpecFromStorage(String id, String data) async {
+    try {
+      switch (id) {
+        case "name":
+          specName.removeWhere((item) => item['code'] == data);
+          break;
+        case "type":
+          specType.removeWhere((item) => item['code'] == data);
+          break;
+        case "collection":
+          specCollection.removeWhere((item) => item['code'] == data);
+          break;
+        default:
+          break;
+      }
     } catch (e) {
       debugPrint('Error updating spec: $e');
     }
