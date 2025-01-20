@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -17,6 +18,125 @@ class CategoryView extends GetView<CategoryController> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: textPrimary,
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.add,
+              size: 27,
+            ),
+            onPressed: () async {
+              await showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Tambah Kategori'),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Obx(() {
+                          return TextField(
+                            controller: controller.category,
+                            textCapitalization: TextCapitalization.sentences,
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(5),
+                              hintText: 'Nama Kategori',
+                              border: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: Colors.transparent,
+                              errorText: controller.errorCategory.value,
+                              errorStyle: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 14,
+                              ),
+                            ),
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.next,
+                            onChanged: (_) {
+                              controller.validateCategory();
+                            },
+                          );
+                        }),
+                        SizedBox(height: 20),
+                        Obx(() {
+                          return DropdownSearch<Map<String, dynamic>>(
+                            itemAsString: (item) => item['title'],
+                            items: const [
+                              {
+                                'title': 'Nama',
+                                'code': 'name',
+                              },
+                              {
+                                'title': 'Tipe',
+                                'code': 'type',
+                              },
+                              {
+                                'title': 'Pengumpulan',
+                                'code': 'collection',
+                              },
+                            ],
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                contentPadding: const EdgeInsets.all(5),
+                                border: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
+                                labelText: "Jenis Kategori",
+                                errorText: controller.errorJenis.value,
+                                errorStyle: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                            onChanged: (value) {
+                              controller.jenis.value = value;
+                              controller.validateJenis();
+                            },
+                            selectedItem: controller.jenis.value,
+                          );
+                        }),
+                      ],
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Batal'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          controller.addSpecTask();
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Simpan'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+        ],
       ),
       body: ContainedTabBarView(
         tabBarProperties: TabBarProperties(
