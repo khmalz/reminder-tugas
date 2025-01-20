@@ -60,10 +60,16 @@ class CategoryController extends GetxController {
       await addSpecFromStorage(docId, dataNew);
       await helper.getSpecTask();
 
+      clearInput();
       debugPrint("Data added with key: $newKey");
     } else {
       debugPrint("Document $docId does not exist.");
     }
+  }
+
+  void clearInput() {
+    category.clear();
+    jenis.value = null;
   }
 
   final box = GetStorage();
