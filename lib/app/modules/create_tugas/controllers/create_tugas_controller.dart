@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:reminder_tugas/app/helper/validate_input.dart';
 import 'package:reminder_tugas/app/routes/app_pages.dart';
 
 class CreateTugasController extends GetxController {
@@ -40,63 +41,48 @@ class CreateTugasController extends GetxController {
   }
 
   bool validateMatkul() {
-    if (matkul.text.isEmpty) {
-      errorMatkul.value = 'Mata kuliah harus diisi';
-
-      return false;
-    } else {
-      errorMatkul.value = null;
-
-      return true;
-    }
+    return validateInput<String>(
+      value: matkul.text,
+      setError: (msg) => errorMatkul.value = msg,
+      errorMessage: 'Mata kuliah harus diisi',
+      validator: (value) => value != null && value.isNotEmpty,
+    );
   }
 
   bool validateJenis() {
-    if (jenisTugas.value == null) {
-      errorJenis.value = 'Jenis tugas harus dipilih';
-
-      return false;
-    } else {
-      errorJenis.value = null;
-
-      return true;
-    }
+    return validateInput<Map<String, dynamic>>(
+      value: jenisTugas.value,
+      setError: (msg) => errorJenis.value = msg,
+      errorMessage: 'Jenis tugas harus dipilih',
+      validator: (value) => value != null,
+    );
   }
 
   bool validateTipe() {
-    if (tipeTugas.value == null) {
-      errorTipe.value = 'Tipe tugas harus dipilih';
-
-      return false;
-    } else {
-      errorTipe.value = null;
-
-      return true;
-    }
+    return validateInput<Map<String, dynamic>>(
+      value: tipeTugas.value,
+      setError: (msg) => errorTipe.value = msg,
+      errorMessage: 'Tipe tugas harus dipilih',
+      validator: (value) => value != null,
+    );
   }
 
   bool validatePengumpulan() {
-    if (pengumpulan.value == null) {
-      errorPengumpulan.value = 'Pengumpulan harus dipilih';
-
-      return false;
-    } else {
-      errorPengumpulan.value = null;
-
-      return true;
-    }
+    return validateInput<Map<String, dynamic>>(
+      value: pengumpulan.value,
+      setError: (msg) => errorPengumpulan.value = msg,
+      errorMessage: 'Pengumpulan harus dipilih',
+      validator: (value) => value != null,
+    );
   }
 
   bool validateDeadline() {
-    if (deadline.text.isEmpty) {
-      errorDeadline.value = 'Deadline harus diisi';
-
-      return false;
-    } else {
-      errorDeadline.value = null;
-
-      return true;
-    }
+    return validateInput<String>(
+      value: deadline.text,
+      setError: (msg) => errorDeadline.value = msg,
+      errorMessage: 'Deadline harus diisi',
+      validator: (value) => value != null && value.isNotEmpty,
+    );
   }
 
   void createTask() {

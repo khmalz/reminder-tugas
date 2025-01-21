@@ -18,6 +18,7 @@ class CategoryController extends GetxController {
       value: category.text,
       setError: (msg) => errorCategory.value = msg,
       errorMessage: 'Kategori harus diisi',
+      validator: (value) => value != null && value.isNotEmpty,
     );
   }
 
@@ -26,6 +27,7 @@ class CategoryController extends GetxController {
       value: jenis.value,
       setError: (msg) => errorJenis.value = msg,
       errorMessage: 'Jenis tugas harus dipilih',
+      validator: (value) => value != null,
     );
   }
 

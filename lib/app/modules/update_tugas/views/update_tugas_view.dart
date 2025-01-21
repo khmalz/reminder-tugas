@@ -41,9 +41,7 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                           controller: controller.matkul,
                           style: const TextStyle(color: textSecondary),
                           onChanged: (value) {
-                            value.isNotEmpty
-                                ? controller.errorMatkul.value = null
-                                : null;
+                            controller.validateMatkul();
                           },
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.symmetric(
