@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:reminder_tugas/app/data/provider/spec_task_provider.dart';
 import 'package:reminder_tugas/app/helper/spec.dart' as helper;
+import 'package:reminder_tugas/app/helper/validate_input.dart';
 
 class CategoryController extends GetxController {
   // VALIDATION
@@ -13,33 +14,41 @@ class CategoryController extends GetxController {
   Rxn<String> errorJenis = Rxn<String>(null);
 
   bool validateCategory() {
-    if (category.text.isEmpty) {
-      errorCategory.value = 'Kategori harus diisi';
-
-      return false;
-    } else {
-      errorCategory.value = null;
-
-      return true;
-    }
+    return validateInput<String>(
+      value: category.text,
+      setError: (msg) => errorCategory.value = msg,
+      errorMessage: 'Kategori harus diisi',
+    );
   }
 
   bool validateJenis() {
-    if (jenis.value == null) {
-      errorJenis.value = 'Jenis tugas harus dipilih';
-
-      return false;
-    } else {
-      errorJenis.value = null;
-
-      return true;
-    }
+    return validateInput<Map<String, dynamic>>(
+      value: jenis.value,
+      setError: (msg) => errorJenis.value = msg,
+      errorMessage: 'Jenis tugas harus dipilih',
+    );
   }
 
   // Firebase
   SpecTaskProvider specTaskProvider = SpecTaskProvider();
 
   Future<void> addSpecTask() async {
+    bool isValidate = true;
+
+    isValidate &= validateCategory();
+    isValidate &= validateJenis();
+
+    if (!isValidate) {
+      Get.rawSnackbar(
+        message: 'Kamu harus mengisi semua form terlebih dahulu.',
+        backgroundColor: Colors.red,
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        borderRadius: 8,
+      );
+
+      return;
+    }
+
     try {
       var docId = jenis.value!['code'];
       var dataNew = {
