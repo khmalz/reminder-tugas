@@ -73,6 +73,7 @@ class HomeView extends GetView<HomeController> {
                       color: textPrimary,
                       boxShadow: [
                         BoxShadow(
+                          // ignore: deprecated_member_use
                           color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 2,
                           blurRadius: 3,
@@ -154,7 +155,7 @@ class HomeView extends GetView<HomeController> {
                   Column(
                     children: tugasList
                         .map((tugas) => ListTugas(
-                              id: tugas.id.toString(),
+                              id: tugas.id!,
                               namaTugas: tugas.name!,
                               matkul: tugas.matkul!,
                               tipe: tugas.type!,

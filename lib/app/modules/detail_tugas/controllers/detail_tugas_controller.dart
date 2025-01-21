@@ -1,27 +1,35 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:reminder_tugas/app/data/models/task_model.dart';
+import 'package:reminder_tugas/app/data/provider/task_provider.dart';
 import 'package:reminder_tugas/app/routes/app_pages.dart';
 
 class DetailTugasController extends GetxController {
-  var db = FirebaseFirestore.instance;
+  final TaskProvider _taskProvider = TaskProvider();
   String id = Get.parameters['id'].toString();
 
   Future<void> deleteTask(String id) async {
     try {
-      await db.collection("tasks").doc(id).delete();
+      await _taskProvider.deleteTask(id);
 
       Get.offAllNamed(Routes.HOME);
     } catch (e) {
+      Get.rawSnackbar(
+        message: "Failed to delete task: ${e.toString()}",
+        backgroundColor: Colors.red,
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        borderRadius: 8,
+      );
+
       debugPrint('Error deleting task: $e');
     }
   }
 
   Future<void> updateStatusTask(bool status) async {
     try {
-      await db.collection("tasks").doc(id).update({'is_done': !status});
+      await _taskProvider.updateStatusTask(id, status);
 
       Get.offAllNamed(Routes.HOME);
     } catch (e) {
@@ -31,29 +39,32 @@ class DetailTugasController extends GetxController {
 
   Future<Task?> loadTugasById(String id) async {
     try {
-      var doc = await db.collection("tasks").doc(id).get();
+      var taskData = await _taskProvider.loadTaskById(id);
 
-      // Memeriksa apakah dokumen ada
-      if (doc.exists) {
+      if (taskData != null) {
         Task task = Task(
-          id: doc.id,
-          name: doc['name'],
-          matkul: doc['matkul'],
-          type: doc['type'],
-          collection: doc['collection'],
+          id: taskData['id'],
+          name: taskData['name'],
+          matkul: taskData['matkul'],
+          type: taskData['type'],
+          collection: taskData['collection'],
           deadline: DateFormat('dd MMMM yyyy')
-              .format((doc['deadline'] as Timestamp).toDate()),
-          isDone: doc['is_done'],
+              .format((taskData['deadline'] as Timestamp).toDate()),
+          isDone: taskData['is_done'],
         );
-
-        // debugPrint(task.toString());
 
         return task;
       } else {
         return null;
       }
     } catch (e) {
-      debugPrint('Error getting task: $e');
+      Get.rawSnackbar(
+        message: "Failed to load task: ${e.toString()}",
+        backgroundColor: Colors.red,
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        borderRadius: 8,
+      );
+      debugPrint('Error loading task: $e');
       return null;
     }
   }

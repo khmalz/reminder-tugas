@@ -1,53 +1,66 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:reminder_tugas/app/data/models/task_model.dart';
+import 'package:reminder_tugas/app/data/provider/task_provider.dart';
 
 class HomeController extends GetxController {
+  final TaskProvider _taskProvider = TaskProvider();
   Rx<List<Map<String, int>>> statList = Rx<List<Map<String, int>>>([
     {"late": 0},
     {"pending": 0},
     {"done": 0},
   ]);
 
-  var db = FirebaseFirestore.instance;
-
   Future<List<Task>> getTasks() async {
-    List<Task> tasks = [];
+    List<Task> tasksList = [];
     int late = 0, pending = 0, done = 0;
 
-    await db.collection("tasks").get().then((event) {
-      for (var doc in event.docs) {
-        tasks.add(Task(
-          id: doc.id,
-          name: doc['name'],
-          matkul: doc['matkul'],
-          type: doc['type'],
-          collection: doc['collection'],
+    try {
+      List<Map<String, dynamic>> tasksData = await _taskProvider.getTasks();
+
+      for (var data in tasksData) {
+        tasksList.add(Task(
+          id: data['id'],
+          name: data['name'],
+          matkul: data['matkul'],
+          type: data['type'],
+          collection: data['collection'],
           deadline: DateFormat('dd MMMM yyyy')
-              .format((doc['deadline'] as Timestamp).toDate()),
-          isDone: doc['is_done'],
+              .format((data['deadline'] as Timestamp).toDate()),
+          isDone: data['is_done'],
         ));
 
-        DateTime taskDeadline = (doc['deadline'] as Timestamp).toDate();
+        DateTime taskDeadline = (data['deadline'] as Timestamp).toDate();
+
         if (taskDeadline.isBefore(DateTime.now())) {
           late++;
         }
 
-        if (doc['is_done'] == false) {
+        if (data['is_done'] == false) {
           pending++;
         } else {
           done++;
         }
       }
-    });
 
-    statList.value = [
-      {"late": late},
-      {"pending": pending},
-      {"done": done},
-    ];
+      statList.value = [
+        {"late": late},
+        {"pending": pending},
+        {"done": done},
+      ];
 
-    return tasks;
+      return tasksList;
+    } catch (e) {
+      Get.rawSnackbar(
+        message: "Failed to load tasks: ${e.toString()}",
+        backgroundColor: Colors.red,
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        borderRadius: 8,
+      );
+      debugPrint('Error getting tasks: $e');
+      return [];
+    }
   }
 }

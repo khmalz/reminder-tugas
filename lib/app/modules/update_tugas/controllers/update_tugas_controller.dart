@@ -1,15 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:reminder_tugas/app/data/models/task_model.dart';
+import 'package:reminder_tugas/app/data/provider/task_provider.dart';
 import 'package:reminder_tugas/app/helper/validate_input.dart';
 import 'package:reminder_tugas/app/routes/app_pages.dart';
 
 class UpdateTugasController extends GetxController {
   Task task = Task.fromJson(Get.arguments);
+  final TaskProvider _taskProvider = TaskProvider();
 
+  // VALIDATION
   Rxn<Map<String, dynamic>> jenisTugas = Rxn<Map<String, dynamic>>(null);
   Rxn<Map<String, dynamic>> tipeTugas = Rxn<Map<String, dynamic>>(null);
   Rxn<Map<String, dynamic>> pengumpulan = Rxn<Map<String, dynamic>>(null);
@@ -22,40 +25,6 @@ class UpdateTugasController extends GetxController {
   Rxn<String> errorTipe = Rxn<String>(null);
   Rxn<String> errorPengumpulan = Rxn<String>(null);
   Rxn<String> errorDeadline = Rxn<String>(null);
-
-  final box = GetStorage();
-  List<Map<String, dynamic>> specName = [];
-  List<Map<String, dynamic>> specType = [];
-  List<Map<String, dynamic>> specCollection = [];
-
-  Future<void> getSpecTask() async {
-    Map<String, dynamic> specTask = await box.read('specTask')[0];
-
-    specName = specTask['name'];
-    specType = specTask['type'];
-    specCollection = specTask['collection'];
-  }
-
-  var db = FirebaseFirestore.instance;
-  void updateInput() {
-    matkul.text = task.matkul!;
-    jenisTugas.value =
-        specName.firstWhere((element) => element['title'] == task.name);
-    tipeTugas.value =
-        specType.firstWhere((element) => element['title'] == task.type);
-    pengumpulan.value = specCollection
-        .firstWhere((element) => element['title'] == task.collection);
-    deadline.text = task.deadline!;
-    dates.value = [DateFormat('dd MMMM yyyy').parse(task.deadline!)];
-  }
-
-  @override
-  void onInit() async {
-    super.onInit();
-    await getSpecTask();
-
-    updateInput();
-  }
 
   bool validateMatkul() {
     return validateInput<String>(
@@ -114,6 +83,40 @@ class UpdateTugasController extends GetxController {
         deadline.text != task.deadline;
   }
 
+  // STORAGE
+  final box = GetStorage();
+  List<Map<String, dynamic>> specName = [];
+  List<Map<String, dynamic>> specType = [];
+  List<Map<String, dynamic>> specCollection = [];
+
+  Future<void> getSpecTask() async {
+    Map<String, dynamic> specTask = await box.read('specTask')[0];
+
+    specName = specTask['name'];
+    specType = specTask['type'];
+    specCollection = specTask['collection'];
+  }
+
+  void updateInput() {
+    matkul.text = task.matkul!;
+    jenisTugas.value =
+        specName.firstWhere((element) => element['title'] == task.name);
+    tipeTugas.value =
+        specType.firstWhere((element) => element['title'] == task.type);
+    pengumpulan.value = specCollection
+        .firstWhere((element) => element['title'] == task.collection);
+    deadline.text = task.deadline!;
+    dates.value = [DateFormat('dd MMMM yyyy').parse(task.deadline!)];
+  }
+
+  @override
+  void onInit() async {
+    super.onInit();
+    await getSpecTask();
+
+    updateInput();
+  }
+
   Future<void> updateTask() async {
     if (!hasInputChanged()) {
       Get.rawSnackbar(
@@ -155,14 +158,13 @@ class UpdateTugasController extends GetxController {
         'is_done': false,
       };
 
-      await db.collection("tasks").doc(task.id).update(taskData);
-
+      await _taskProvider.updateTask(task.id!, taskData);
       debugPrint('Task updated successfully');
 
       Get.offAllNamed(Routes.HOME);
     } catch (e) {
       Get.rawSnackbar(
-        message: e.toString(),
+        message: "Failed to update task: ${e.toString()}",
         backgroundColor: Colors.red,
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         borderRadius: 8,

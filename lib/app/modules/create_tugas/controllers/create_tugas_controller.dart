@@ -1,11 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:reminder_tugas/app/data/provider/task_provider.dart';
 import 'package:reminder_tugas/app/helper/validate_input.dart';
 import 'package:reminder_tugas/app/routes/app_pages.dart';
 
 class CreateTugasController extends GetxController {
+  // VALIDATION
   Rxn<Map<String, dynamic>> jenisTugas = Rxn<Map<String, dynamic>>(null);
   Rxn<Map<String, dynamic>> tipeTugas = Rxn<Map<String, dynamic>>(null);
   Rxn<Map<String, dynamic>> pengumpulan = Rxn<Map<String, dynamic>>(null);
@@ -18,27 +20,6 @@ class CreateTugasController extends GetxController {
   Rxn<String> errorTipe = Rxn<String>(null);
   Rxn<String> errorPengumpulan = Rxn<String>(null);
   Rxn<String> errorDeadline = Rxn<String>(null);
-
-  var db = FirebaseFirestore.instance;
-
-  final box = GetStorage();
-  List<Map<String, dynamic>> specName = [];
-  List<Map<String, dynamic>> specType = [];
-  List<Map<String, dynamic>> specCollection = [];
-
-  void getSpecTask() {
-    Map<String, dynamic> specTask = box.read('specTask')[0];
-
-    specName = specTask['name'];
-    specType = specTask['type'];
-    specCollection = specTask['collection'];
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    getSpecTask();
-  }
 
   bool validateMatkul() {
     return validateInput<String>(
@@ -85,7 +66,30 @@ class CreateTugasController extends GetxController {
     );
   }
 
-  void createTask() {
+  // STORAAGE
+  final box = GetStorage();
+  List<Map<String, dynamic>> specName = [];
+  List<Map<String, dynamic>> specType = [];
+  List<Map<String, dynamic>> specCollection = [];
+
+  void getSpecTask() {
+    Map<String, dynamic> specTask = box.read('specTask')[0];
+
+    specName = specTask['name'];
+    specType = specTask['type'];
+    specCollection = specTask['collection'];
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    getSpecTask();
+  }
+
+  // FIREBASE
+  final TaskProvider _taskProvider = TaskProvider();
+
+  Future<void> createTask() async {
     bool isValidate = true;
 
     isValidate &= validateMatkul();
@@ -115,8 +119,7 @@ class CreateTugasController extends GetxController {
     };
 
     try {
-      db.collection("tasks").add(taskData);
-
+      await _taskProvider.addTask(taskData);
       debugPrint('Task created successfully');
 
       Get.offAllNamed(Routes.HOME);
