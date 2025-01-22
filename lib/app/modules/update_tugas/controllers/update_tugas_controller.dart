@@ -92,9 +92,9 @@ class UpdateTugasController extends GetxController {
   Future<void> getSpecTask() async {
     Map<String, dynamic> specTask = await box.read('specTask')[0];
 
-    specName = specTask['name'];
-    specType = specTask['type'];
-    specCollection = specTask['collection'];
+    specName = List<Map<String, dynamic>>.from(specTask['name']);
+    specType = List<Map<String, dynamic>>.from(specTask['type']);
+    specCollection = List<Map<String, dynamic>>.from(specTask['collection']);
   }
 
   void updateInput() {

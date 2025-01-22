@@ -66,7 +66,7 @@ class CreateTugasController extends GetxController {
     );
   }
 
-  // STORAAGE
+  // STORAGE
   final box = GetStorage();
   List<Map<String, dynamic>> specName = [];
   List<Map<String, dynamic>> specType = [];
@@ -75,13 +75,13 @@ class CreateTugasController extends GetxController {
   void getSpecTask() {
     Map<String, dynamic> specTask = box.read('specTask')[0];
 
-    specName = specTask['name'];
-    specType = specTask['type'];
-    specCollection = specTask['collection'];
+    specName = List<Map<String, dynamic>>.from(specTask['name']);
+    specType = List<Map<String, dynamic>>.from(specTask['type']);
+    specCollection = List<Map<String, dynamic>>.from(specTask['collection']);
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     getSpecTask();
   }

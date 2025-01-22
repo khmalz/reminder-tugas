@@ -4,32 +4,20 @@ import 'package:get/get.dart';
 class SpecTaskProvider extends GetConnect {
   final _firestore = FirebaseFirestore.instance;
 
-  Future<Map<String, dynamic>> getGroupedSpecs() async {
+  Future<List<Map<String, dynamic>>> getGroupedSpecs() async {
     try {
-      Map<String, dynamic> result = {
-        'name': [],
-        'type': [],
-        'collection': [],
-      };
+      List<Map<String, dynamic>> result = [
+        {'name': [], 'type': [], 'collection': []},
+      ];
 
       var snapshot = await _firestore.collection('specs').get();
 
       for (var doc in snapshot.docs) {
         var data = doc.data();
 
-        if (doc.id == 'name') {
+        if (result[0].containsKey(doc.id)) {
           for (var item in data.values) {
-            result['name']!.add(Map<String, dynamic>.from(item));
-          }
-        }
-        if (doc.id == 'type') {
-          for (var item in data.values) {
-            result['type']!.add(Map<String, dynamic>.from(item));
-          }
-        }
-        if (doc.id == 'collection') {
-          for (var item in data.values) {
-            result['collection']!.add(Map<String, dynamic>.from(item));
+            result[0][doc.id].add(Map<String, dynamic>.from(item));
           }
         }
       }
