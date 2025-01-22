@@ -17,7 +17,7 @@ void main() async {
 
   runApp(
     GetMaterialApp(
-      title: "Application",
+      title: "Reminder Task",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
