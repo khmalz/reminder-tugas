@@ -32,7 +32,7 @@ class CategoryController extends GetxController {
   }
 
   // Firebase
-  SpecTaskProvider specTaskProvider = SpecTaskProvider();
+  final SpecTaskProvider _specTaskProvider = SpecTaskProvider();
 
   Future<void> addSpecTask() async {
     bool isValidate = true;
@@ -58,7 +58,7 @@ class CategoryController extends GetxController {
         'code': category.text.trim().toLowerCase().replaceAll(' ', '_'),
       };
 
-      await specTaskProvider.addSpec(docId, dataNew);
+      await _specTaskProvider.addSpec(docId, dataNew);
 
       await addSpecFromStorage(docId, dataNew);
       await helper.getSpecTask();
@@ -72,7 +72,7 @@ class CategoryController extends GetxController {
 
   Future<String?> getSpecKey(String docId, String dataValue) async {
     try {
-      String? resultID = await specTaskProvider.getSpecKey(docId, dataValue);
+      String? resultID = await _specTaskProvider.getSpecKey(docId, dataValue);
 
       if (resultID == null) {
         debugPrint("Error getting document");
@@ -92,7 +92,7 @@ class CategoryController extends GetxController {
       String? dataId = await getSpecKey(id, data);
 
       if (dataId != null) {
-        await specTaskProvider.deleteSpec(id, dataId);
+        await _specTaskProvider.deleteSpec(id, dataId);
 
         debugPrint("Key $dataId deleted successfully!");
       } else {
