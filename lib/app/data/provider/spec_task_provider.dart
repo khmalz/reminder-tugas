@@ -17,9 +17,19 @@ class SpecTaskProvider extends GetConnect {
       for (var doc in snapshot.docs) {
         var data = doc.data();
 
-        if (result.containsKey(doc.id)) {
+        if (doc.id == 'name') {
           for (var item in data.values) {
-            result[doc.id]!.add(Map<String, dynamic>.from(item));
+            result['name']!.add(Map<String, dynamic>.from(item));
+          }
+        }
+        if (doc.id == 'type') {
+          for (var item in data.values) {
+            result['type']!.add(Map<String, dynamic>.from(item));
+          }
+        }
+        if (doc.id == 'collection') {
+          for (var item in data.values) {
+            result['collection']!.add(Map<String, dynamic>.from(item));
           }
         }
       }

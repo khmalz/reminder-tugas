@@ -16,7 +16,9 @@ Future<void> getSpecTask() async {
 
     Map<String, dynamic> groupedSpecs =
         await _specTaskProvider.getGroupedSpecs();
+
     specTask.add(groupedSpecs);
+    await insertSpecTask(specTask);
 
     isLoading = false;
   } catch (e) {
@@ -25,7 +27,9 @@ Future<void> getSpecTask() async {
 }
 
 Future<void> insertSpecTask(List<Map<String, dynamic>> specTaskData) async {
-  await box.remove('specTask');
+  if (box.hasData('specTask')) {
+    box.remove('specTask');
+  }
 
   await box.write('specTask', specTaskData);
 
