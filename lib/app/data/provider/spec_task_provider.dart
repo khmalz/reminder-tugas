@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 class SpecTaskProvider extends GetConnect {
   final _firestore = FirebaseFirestore.instance;
 
-  Future<Map<String, dynamic>> fetchGroupedSpecs() async {
+  Future<Map<String, dynamic>> getGroupedSpecs() async {
     try {
       Map<String, dynamic> result = {
         'name': [],

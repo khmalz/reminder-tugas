@@ -15,7 +15,7 @@ Future<void> getSpecTask() async {
     isLoading = true;
 
     Map<String, dynamic> groupedSpecs =
-        await _specTaskProvider.fetchGroupedSpecs();
+        await _specTaskProvider.getGroupedSpecs();
     specTask.add(groupedSpecs);
 
     isLoading = false;
