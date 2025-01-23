@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:reminder_tugas/app/data/provider/task_provider.dart';
+import 'package:hive/hive.dart';
+import 'package:reminder_tugas/app/data/models/task_model.dart';
+import 'package:reminder_tugas/app/helper/id_generator.dart';
 import 'package:reminder_tugas/app/helper/validate_input.dart';
 import 'package:reminder_tugas/app/routes/app_pages.dart';
 
@@ -86,9 +87,6 @@ class CreateTugasController extends GetxController {
     getSpecTask();
   }
 
-  // FIREBASE
-  final TaskProvider _taskProvider = TaskProvider();
-
   Future<void> createTask() async {
     bool isValidate = true;
 
@@ -110,16 +108,19 @@ class CreateTugasController extends GetxController {
     }
 
     var taskData = {
+      'id': idGenerator(),
       'name': jenisTugas.value!['title'],
       'matkul': matkul.text,
       'type': tipeTugas.value!['title'],
       'collection': pengumpulan.value!['title'],
-      'deadline': Timestamp.fromDate(dates[0]!),
+      'deadline': deadline.text,
       'is_done': false,
     };
 
     try {
-      await _taskProvider.addTask(taskData);
+      final box = await Hive.openBox<Task>('main');
+      box.add(Task.fromJson(taskData));
+
       debugPrint('Task created successfully');
 
       Get.offAllNamed(Routes.HOME);

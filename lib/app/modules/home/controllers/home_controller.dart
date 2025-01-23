@@ -19,17 +19,17 @@ class HomeController extends GetxController {
 
   Future<List<Task>> getTasks() async {
     final box = await Hive.openBox<Task>('main');
-    await box.clear();
+    // await box.clear();
 
-    await box.add(Task(
-      id: "1",
-      name: "Tugas 1",
-      matkul: "Matematika",
-      type: "UTS",
-      collection: "Mandiri",
-      deadline: "20 February 2025",
-      isDone: false,
-    ));
+    // await box.add(Task(
+    //   id: "2",
+    //   name: "Tugas 2",
+    //   matkul: "Matematika",
+    //   type: "Soal",
+    //   collection: "Mandiri",
+    //   deadline: "10 February 2025",
+    //   isDone: false,
+    // ));
 
     List<Task> tasks = box.values.toList();
 

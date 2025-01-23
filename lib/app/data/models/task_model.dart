@@ -35,6 +35,25 @@ class Task {
     this.isDone = false,
   });
 
+  Task copyWith({
+    String? id,
+    String? name,
+    String? matkul,
+    String? type,
+    String? collection,
+    String? deadline,
+    bool? isDone,
+  }) =>
+      Task(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        matkul: matkul ?? this.matkul,
+        type: type ?? this.type,
+        collection: collection ?? this.collection,
+        deadline: deadline ?? this.deadline,
+        isDone: isDone ?? this.isDone,
+      );
+
   Task.fromJson(Map<String, dynamic> json) {
     id = json['id'] as String?;
     name = json['name'];
