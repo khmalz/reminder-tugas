@@ -1,10 +1,28 @@
+import 'package:hive/hive.dart';
+
+part 'task_model.g.dart';
+
+@HiveType(typeId: 0)
 class Task {
+  @HiveField(0)
   String? id;
+
+  @HiveField(1)
   String? name;
+
+  @HiveField(2)
   String? matkul;
+
+  @HiveField(3)
   String? type;
+
+  @HiveField(4)
   String? collection;
+
+  @HiveField(5)
   String? deadline;
+
+  @HiveField(6)
   bool isDone = false;
 
   Task({

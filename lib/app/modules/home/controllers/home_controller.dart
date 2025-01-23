@@ -1,66 +1,60 @@
-import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart' show debugPrint;
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:reminder_tugas/app/data/models/task_model.dart';
-import 'package:reminder_tugas/app/data/provider/task_provider.dart';
 
 class HomeController extends GetxController {
-  final TaskProvider _taskProvider = TaskProvider();
   Rx<List<Map<String, int>>> statList = Rx<List<Map<String, int>>>([
     {"late": 0},
     {"pending": 0},
     {"done": 0},
   ]);
 
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
+  }
+
   Future<List<Task>> getTasks() async {
-    List<Task> tasksList = [];
+    final box = await Hive.openBox<Task>('main');
+    await box.clear();
+
+    await box.add(Task(
+      id: "1",
+      name: "Tugas 1",
+      matkul: "Matematika",
+      type: "UTS",
+      collection: "Mandiri",
+      deadline: "20 February 2025",
+      isDone: false,
+    ));
+
+    List<Task> tasks = box.values.toList();
+
     int late = 0, pending = 0, done = 0;
 
-    try {
-      List<Map<String, dynamic>> tasksData = await _taskProvider.getTasks();
+    for (var task in tasks) {
+      DateTime taskDeadline = DateFormat('dd MMMM yyyy').parse(task.deadline!);
 
-      for (var data in tasksData) {
-        tasksList.add(Task(
-          id: data['id'],
-          name: data['name'],
-          matkul: data['matkul'],
-          type: data['type'],
-          collection: data['collection'],
-          deadline: DateFormat('dd MMMM yyyy')
-              .format((data['deadline'] as Timestamp).toDate()),
-          isDone: data['is_done'],
-        ));
-
-        DateTime taskDeadline = (data['deadline'] as Timestamp).toDate();
-
-        if (taskDeadline.isBefore(DateTime.now())) {
-          late++;
-        }
-
-        if (data['is_done'] == false) {
-          pending++;
-        } else {
-          done++;
-        }
+      if (taskDeadline.isBefore(DateTime.now())) {
+        late++;
       }
 
-      statList.value = [
-        {"late": late},
-        {"pending": pending},
-        {"done": done},
-      ];
-
-      return tasksList;
-    } catch (e) {
-      Get.rawSnackbar(
-        message: "Failed to load tasks: ${e.toString()}",
-        backgroundColor: Colors.red,
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        borderRadius: 8,
-      );
-      debugPrint('Error getting tasks: $e');
-      return [];
+      if (task.isDone == false) {
+        pending++;
+      } else {
+        done++;
+      }
     }
+
+    statList.value = [
+      {"late": late},
+      {"pending": pending},
+      {"done": done},
+    ];
+
+    return tasks;
   }
 }
