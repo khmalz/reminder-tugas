@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:reminder_tugas/app/data/provider/spec_task_provider.dart';
-import 'package:reminder_tugas/app/helper/spec.dart' as helper;
+import 'package:hive/hive.dart';
 import 'package:reminder_tugas/app/helper/validate_input.dart';
 
 class CategoryController extends GetxController {
   // VALIDATION
-  TextEditingController category = TextEditingController();
+  TextEditingController title = TextEditingController();
   Rxn<Map<String, dynamic>> jenis = Rxn<Map<String, dynamic>>(null);
 
-  Rxn<String> errorCategory = Rxn<String>(null);
+  Rxn<String> errorTitle = Rxn<String>(null);
   Rxn<String> errorJenis = Rxn<String>(null);
 
   bool validateCategory() {
     return validateInput<String>(
-      value: category.text,
-      setError: (msg) => errorCategory.value = msg,
+      value: title.text,
+      setError: (msg) => errorTitle.value = msg,
       errorMessage: 'Kategori harus diisi',
       validator: (value) => value != null && value.isNotEmpty,
     );
@@ -30,9 +28,6 @@ class CategoryController extends GetxController {
       validator: (value) => value != null,
     );
   }
-
-  // Firebase
-  final SpecTaskProvider _specTaskProvider = SpecTaskProvider();
 
   Future<void> addSpecTask() async {
     bool isValidate = true;
@@ -52,80 +47,79 @@ class CategoryController extends GetxController {
     }
 
     try {
-      var docId = jenis.value!['code'];
-      var dataNew = {
-        'title': category.text.trim(),
-        'code': category.text.trim().toLowerCase().replaceAll(' ', '_'),
+      var category = jenis.value!['code'];
+      Map<String, dynamic> dataNew = {
+        'title': title.text.trim(),
+        'code': title.text.trim().toLowerCase().replaceAll(' ', '_'),
       };
 
-      await _specTaskProvider.addSpec(docId, dataNew);
+      final specBox = await Hive.openBox('specs');
 
-      await addSpecFromStorage(docId, dataNew);
-      await helper.getSpecTask();
+      List<Map<String, dynamic>> specList =
+          (specBox.get(category, defaultValue: []) as List)
+              .map((e) => Map<String, dynamic>.from(e))
+              .toList();
+
+      specList.add(Map<String, dynamic>.from(dataNew));
+
+      await specBox.put(category, specList);
+
+      await getSpecTask();
 
       clearInput();
-      debugPrint("Data added successfully to document: $docId");
+      debugPrint("Data added successfully to document: $category");
     } catch (e) {
       debugPrint("Error adding spec: $e");
     }
   }
 
-  Future<String?> getSpecKey(String docId, String dataValue) async {
+  Future<void> deleteSpec(String category, String code) async {
     try {
-      String? resultID = await _specTaskProvider.getSpecKey(docId, dataValue);
+      final specBox = await Hive.openBox('specs');
 
-      if (resultID == null) {
-        debugPrint("Error getting document");
-      } else if (resultID.isEmpty) {
-        debugPrint("Document doesn't exist");
-      }
+      List<Map<String, dynamic>> specList =
+          (specBox.get(category, defaultValue: []) as List)
+              .map((e) => Map<String, dynamic>.from(e))
+              .toList();
 
-      return resultID;
+      specList.removeWhere((spec) => spec['code'] == code);
+      await specBox.put(category, specList);
+
+      await getSpecTask();
+      debugPrint(
+          'Data dengan code $code berhasil dihapus dari kategori $category');
     } catch (e) {
-      debugPrint("Error in controller: $e");
-      return null;
-    }
-  }
-
-  Future<void> deleteSpec(String id, String data) async {
-    try {
-      String? dataId = await getSpecKey(id, data);
-
-      if (dataId != null) {
-        await _specTaskProvider.deleteSpec(id, dataId);
-
-        debugPrint("Key $dataId deleted successfully!");
-      } else {
-        debugPrint("Error deleting key $dataId");
-      }
-
-      await deleteSpecFromStorage(id, data);
-      await helper.getSpecTask();
-
-      getSpecTask();
-    } catch (e) {
-      debugPrint("Error deleting spec: $e");
+      debugPrint('Error deleting spec: $e');
     }
   }
 
   void clearInput() {
-    category.clear();
+    title.clear();
     jenis.value = null;
   }
 
   // STORAGE
-  final box = GetStorage();
   RxList<Map<String, dynamic>> specName = <Map<String, dynamic>>[].obs;
   RxList<Map<String, dynamic>> specType = <Map<String, dynamic>>[].obs;
   RxList<Map<String, dynamic>> specCollection = <Map<String, dynamic>>[].obs;
 
-  void getSpecTask() async {
-    var specTask = await box.read('specTask')[0];
+  Future<void> getSpecTask() async {
+    final specBox = await Hive.openBox('specs');
 
-    specName.value = List<Map<String, dynamic>>.from(specTask['name']);
-    specType.value = List<Map<String, dynamic>>.from(specTask['type']);
-    specCollection.value =
-        List<Map<String, dynamic>>.from(specTask['collection']);
+    specName.value = (specBox.get('name') as List<dynamic>?)
+            ?.map((e) => Map<String, dynamic>.from(e))
+            .toList() ??
+        [];
+
+    specType.value = (specBox.get('type') as List<dynamic>?)
+            ?.map((e) => Map<String, dynamic>.from(e))
+            .toList() ??
+        [];
+
+    specCollection.value = (specBox.get('collection') as List<dynamic>?)
+            ?.map((e) => Map<String, dynamic>.from(e))
+            .toList() ??
+        [];
   }
 
   Future<void> addSpecFromStorage(String id, Map<String, dynamic> data) async {

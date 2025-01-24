@@ -49,7 +49,10 @@ class HomeView extends GetView<HomeController> {
                     ),
                   ]),
             ),
-            child: Icon(Icons.more_vert),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(Icons.more_vert),
+            ),
           ),
         ],
       ),

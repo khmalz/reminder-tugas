@@ -31,6 +31,9 @@ class HomeController extends GetxController {
     //   isDone: false,
     // ));
 
+    // var specBox = await Hive.openBox('specs');
+    // await specBox.clear();
+
     List<Task> tasks = box.values.toList();
 
     int late = 0, pending = 0, done = 0;

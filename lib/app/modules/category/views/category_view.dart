@@ -36,7 +36,7 @@ class CategoryView extends GetView<CategoryController> {
                       children: [
                         Obx(() {
                           return TextField(
-                            controller: controller.category,
+                            controller: controller.title,
                             textCapitalization: TextCapitalization.sentences,
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(5),
@@ -53,7 +53,7 @@ class CategoryView extends GetView<CategoryController> {
                               ),
                               filled: true,
                               fillColor: Colors.transparent,
-                              errorText: controller.errorCategory.value,
+                              errorText: controller.errorTitle.value,
                               errorStyle: const TextStyle(
                                 color: Colors.red,
                                 fontSize: 14,
