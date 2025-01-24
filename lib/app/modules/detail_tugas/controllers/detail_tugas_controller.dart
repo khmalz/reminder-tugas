@@ -1,18 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:hive/hive.dart';
 import 'package:reminder_tugas/app/data/models/task_model.dart';
-import 'package:reminder_tugas/app/data/provider/task_provider.dart';
 import 'package:reminder_tugas/app/routes/app_pages.dart';
 
 class DetailTugasController extends GetxController {
-  final TaskProvider _taskProvider = TaskProvider();
   String id = Get.parameters['id'].toString();
 
   Future<void> deleteTask(String id) async {
     try {
-      await _taskProvider.deleteTask(id);
+      final box = await Hive.openBox<Task>('main');
+      final key = box.keys.firstWhere((key) => box.get(key)!.id == id);
+      await box.delete(key);
 
       Get.offAllNamed(Routes.HOME);
     } catch (e) {
@@ -29,34 +28,26 @@ class DetailTugasController extends GetxController {
 
   Future<void> updateStatusTask(bool status) async {
     try {
-      await _taskProvider.updateStatusTask(id, status);
+      final box = await Hive.openBox<Task>('main');
+      final key = box.keys.firstWhere((key) => box.get(key)!.id == id);
+      Task task = box.get(key)!;
+      task.isDone = !status;
 
+      await box.put(key, task);
+
+      debugPrint("Task updated successfully!");
       Get.offAllNamed(Routes.HOME);
     } catch (e) {
-      debugPrint('Error deleting task: $e');
+      debugPrint('Error updating task: $e');
     }
   }
 
   Future<Task?> loadTugasById(String id) async {
     try {
-      var taskData = await _taskProvider.loadTaskById(id);
+      final box = await Hive.openBox<Task>('main');
+      Task taskData = box.values.firstWhere((task) => task.id == id);
 
-      if (taskData != null) {
-        Task task = Task(
-          id: taskData['id'],
-          name: taskData['name'],
-          matkul: taskData['matkul'],
-          type: taskData['type'],
-          collection: taskData['collection'],
-          deadline: DateFormat('dd MMMM yyyy')
-              .format((taskData['deadline'] as Timestamp).toDate()),
-          isDone: taskData['is_done'],
-        );
-
-        return task;
-      } else {
-        return null;
-      }
+      return taskData;
     } catch (e) {
       Get.rawSnackbar(
         message: "Failed to load task: ${e.toString()}",

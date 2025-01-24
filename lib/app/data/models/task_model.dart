@@ -1,10 +1,28 @@
+import 'package:hive/hive.dart';
+
+part 'task_model.g.dart';
+
+@HiveType(typeId: 0)
 class Task {
+  @HiveField(0)
   String? id;
+
+  @HiveField(1)
   String? name;
+
+  @HiveField(2)
   String? matkul;
+
+  @HiveField(3)
   String? type;
+
+  @HiveField(4)
   String? collection;
+
+  @HiveField(5)
   String? deadline;
+
+  @HiveField(6)
   bool isDone = false;
 
   Task({
@@ -16,6 +34,25 @@ class Task {
     this.deadline,
     this.isDone = false,
   });
+
+  Task copyWith({
+    String? id,
+    String? name,
+    String? matkul,
+    String? type,
+    String? collection,
+    String? deadline,
+    bool? isDone,
+  }) =>
+      Task(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        matkul: matkul ?? this.matkul,
+        type: type ?? this.type,
+        collection: collection ?? this.collection,
+        deadline: deadline ?? this.deadline,
+        isDone: isDone ?? this.isDone,
+      );
 
   Task.fromJson(Map<String, dynamic> json) {
     id = json['id'] as String?;
