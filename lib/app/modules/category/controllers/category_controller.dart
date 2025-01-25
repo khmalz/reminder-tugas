@@ -29,6 +29,35 @@ class CategoryController extends GetxController {
     );
   }
 
+  void clearInput() {
+    title.clear();
+    jenis.value = null;
+  }
+
+  // STORAGE
+  RxList<Map<String, dynamic>> specName = <Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>> specType = <Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>> specCollection = <Map<String, dynamic>>[].obs;
+
+  Future<void> getSpecTask() async {
+    final specBox = await Hive.openBox('specs');
+
+    specName.value = (specBox.get('name') as List<dynamic>?)
+            ?.map((e) => Map<String, dynamic>.from(e))
+            .toList() ??
+        [];
+
+    specType.value = (specBox.get('type') as List<dynamic>?)
+            ?.map((e) => Map<String, dynamic>.from(e))
+            .toList() ??
+        [];
+
+    specCollection.value = (specBox.get('collection') as List<dynamic>?)
+            ?.map((e) => Map<String, dynamic>.from(e))
+            .toList() ??
+        [];
+  }
+
   Future<void> addSpecTask() async {
     bool isValidate = true;
 
@@ -90,75 +119,6 @@ class CategoryController extends GetxController {
           'Data dengan code $code berhasil dihapus dari kategori $category');
     } catch (e) {
       debugPrint('Error deleting spec: $e');
-    }
-  }
-
-  void clearInput() {
-    title.clear();
-    jenis.value = null;
-  }
-
-  // STORAGE
-  RxList<Map<String, dynamic>> specName = <Map<String, dynamic>>[].obs;
-  RxList<Map<String, dynamic>> specType = <Map<String, dynamic>>[].obs;
-  RxList<Map<String, dynamic>> specCollection = <Map<String, dynamic>>[].obs;
-
-  Future<void> getSpecTask() async {
-    final specBox = await Hive.openBox('specs');
-
-    specName.value = (specBox.get('name') as List<dynamic>?)
-            ?.map((e) => Map<String, dynamic>.from(e))
-            .toList() ??
-        [];
-
-    specType.value = (specBox.get('type') as List<dynamic>?)
-            ?.map((e) => Map<String, dynamic>.from(e))
-            .toList() ??
-        [];
-
-    specCollection.value = (specBox.get('collection') as List<dynamic>?)
-            ?.map((e) => Map<String, dynamic>.from(e))
-            .toList() ??
-        [];
-  }
-
-  Future<void> addSpecFromStorage(String id, Map<String, dynamic> data) async {
-    try {
-      switch (id) {
-        case "name":
-          specName.add(data);
-          break;
-        case "type":
-          specType.add(data);
-          break;
-        case "collection":
-          specCollection.add(data);
-          break;
-        default:
-          break;
-      }
-    } catch (e) {
-      debugPrint('Error updating spec: $e');
-    }
-  }
-
-  Future<void> deleteSpecFromStorage(String id, String data) async {
-    try {
-      switch (id) {
-        case "name":
-          specName.removeWhere((item) => item['code'] == data);
-          break;
-        case "type":
-          specType.removeWhere((item) => item['code'] == data);
-          break;
-        case "collection":
-          specCollection.removeWhere((item) => item['code'] == data);
-          break;
-        default:
-          break;
-      }
-    } catch (e) {
-      debugPrint('Error updating spec: $e');
     }
   }
 

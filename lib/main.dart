@@ -6,7 +6,6 @@ import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 import 'app/data/constant/color.dart';
 import 'app/routes/app_pages.dart';
@@ -16,8 +15,6 @@ void main() async {
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
   Hive.registerAdapter(TaskAdapter());
-  
-  await GetStorage.init();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

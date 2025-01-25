@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:reminder_tugas/app/data/models/task_model.dart';
 import 'package:reminder_tugas/app/helper/id_generator.dart';
@@ -68,17 +67,27 @@ class CreateTugasController extends GetxController {
   }
 
   // STORAGE
-  final box = GetStorage();
-  List<Map<String, dynamic>> specName = [];
-  List<Map<String, dynamic>> specType = [];
-  List<Map<String, dynamic>> specCollection = [];
+  RxList<Map<String, dynamic>> specName = <Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>> specType = <Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>> specCollection = <Map<String, dynamic>>[].obs;
 
-  void getSpecTask() {
-    Map<String, dynamic> specTask = box.read('specTask')[0];
+  Future<void> getSpecTask() async {
+    final specBox = await Hive.openBox('specs');
 
-    specName = List<Map<String, dynamic>>.from(specTask['name']);
-    specType = List<Map<String, dynamic>>.from(specTask['type']);
-    specCollection = List<Map<String, dynamic>>.from(specTask['collection']);
+    specName.value = (specBox.get('name') as List<dynamic>?)
+            ?.map((e) => Map<String, dynamic>.from(e))
+            .toList() ??
+        [];
+
+    specType.value = (specBox.get('type') as List<dynamic>?)
+            ?.map((e) => Map<String, dynamic>.from(e))
+            .toList() ??
+        [];
+
+    specCollection.value = (specBox.get('collection') as List<dynamic>?)
+            ?.map((e) => Map<String, dynamic>.from(e))
+            .toList() ??
+        [];
   }
 
   @override
