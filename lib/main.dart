@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:reminder_tugas/app/data/models/task_model.dart';
@@ -28,10 +29,7 @@ void main() async {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: primary),
-        textTheme: const TextTheme(
-          bodyLarge: TextStyle(),
-          bodyMedium: TextStyle(),
-        ).apply(
+        textTheme: GoogleFonts.robotoTextTheme().apply(
           bodyColor: textSecondary,
           displayColor: textPrimary,
         ),
