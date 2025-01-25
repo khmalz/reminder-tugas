@@ -1,14 +1,17 @@
 bool validateInput<T>({
   required T? value,
   required Function(String?) setError,
-  required String errorMessage,
-  required bool Function(T?) validator,
+  required List<MapEntry<bool Function(T?), String>> validatorsWithMessages,
 }) {
-  if (!validator(value)) {
-    setError(errorMessage);
-    return false;
-  } else {
-    setError(null);
-    return true;
+  for (var entry in validatorsWithMessages) {
+    var validator = entry.key;
+    var errorMessage = entry.value;
+    if (!validator(value)) {
+      setError(errorMessage);
+      return false;
+    }
   }
+
+  setError(null);
+  return true;
 }

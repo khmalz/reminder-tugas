@@ -62,7 +62,7 @@ class CategoryView extends GetView<CategoryController> {
                             keyboardType: TextInputType.text,
                             textInputAction: TextInputAction.next,
                             onChanged: (_) {
-                              controller.validateCategory();
+                              controller.validateTitle();
                             },
                           );
                         }),

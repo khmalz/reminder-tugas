@@ -11,12 +11,20 @@ class CategoryController extends GetxController {
   Rxn<String> errorTitle = Rxn<String>(null);
   Rxn<String> errorJenis = Rxn<String>(null);
 
-  bool validateCategory() {
+  bool validateTitle() {
     return validateInput<String>(
       value: title.text,
       setError: (msg) => errorTitle.value = msg,
-      errorMessage: 'Kategori harus diisi',
-      validator: (value) => value != null && value.isNotEmpty,
+      validatorsWithMessages: [
+        MapEntry(
+          (value) => value != null && value.isNotEmpty,
+          'Kategori harus diisi',
+        ),
+        MapEntry(
+          (value) => value != null && value.length <= 20,
+          'Kategori tidak boleh lebih dari 20 karakter',
+        ),
+      ],
     );
   }
 
@@ -24,8 +32,12 @@ class CategoryController extends GetxController {
     return validateInput<Map<String, dynamic>>(
       value: jenis.value,
       setError: (msg) => errorJenis.value = msg,
-      errorMessage: 'Jenis tugas harus dipilih',
-      validator: (value) => value != null,
+      validatorsWithMessages: [
+        MapEntry(
+          (value) => value != null,
+          'Jenis tugas harus dipilih',
+        ),
+      ],
     );
   }
 
@@ -61,7 +73,7 @@ class CategoryController extends GetxController {
   Future<void> addSpecTask() async {
     bool isValidate = true;
 
-    isValidate &= validateCategory();
+    isValidate &= validateTitle();
     isValidate &= validateJenis();
 
     if (!isValidate) {

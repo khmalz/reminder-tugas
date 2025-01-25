@@ -25,8 +25,16 @@ class CreateTugasController extends GetxController {
     return validateInput<String>(
       value: matkul.text,
       setError: (msg) => errorMatkul.value = msg,
-      errorMessage: 'Mata kuliah harus diisi',
-      validator: (value) => value != null && value.isNotEmpty,
+      validatorsWithMessages: [
+        MapEntry(
+          (value) => value != null && value.isNotEmpty,
+          'Mata kuliah harus diisi',
+        ),
+        MapEntry(
+          (value) => value != null && value.length <= 100,
+          'Mata kuliah tidak boleh lebih dari 100 karakter',
+        ),
+      ],
     );
   }
 
@@ -34,8 +42,12 @@ class CreateTugasController extends GetxController {
     return validateInput<Map<String, dynamic>>(
       value: jenisTugas.value,
       setError: (msg) => errorJenis.value = msg,
-      errorMessage: 'Jenis tugas harus dipilih',
-      validator: (value) => value != null,
+      validatorsWithMessages: [
+        MapEntry(
+          (value) => value != null,
+          'Jenis tugas harus dipilih',
+        ),
+      ],
     );
   }
 
@@ -43,8 +55,12 @@ class CreateTugasController extends GetxController {
     return validateInput<Map<String, dynamic>>(
       value: tipeTugas.value,
       setError: (msg) => errorTipe.value = msg,
-      errorMessage: 'Tipe tugas harus dipilih',
-      validator: (value) => value != null,
+      validatorsWithMessages: [
+        MapEntry(
+          (value) => value != null,
+          'Tipe tugas harus dipilih',
+        ),
+      ],
     );
   }
 
@@ -52,8 +68,12 @@ class CreateTugasController extends GetxController {
     return validateInput<Map<String, dynamic>>(
       value: pengumpulan.value,
       setError: (msg) => errorPengumpulan.value = msg,
-      errorMessage: 'Pengumpulan harus dipilih',
-      validator: (value) => value != null,
+      validatorsWithMessages: [
+        MapEntry(
+          (value) => value != null,
+          'Pengumpulan harus dipilih',
+        ),
+      ],
     );
   }
 
@@ -61,8 +81,16 @@ class CreateTugasController extends GetxController {
     return validateInput<String>(
       value: deadline.text,
       setError: (msg) => errorDeadline.value = msg,
-      errorMessage: 'Deadline harus diisi',
-      validator: (value) => value != null && value.isNotEmpty,
+      validatorsWithMessages: [
+        MapEntry(
+          (value) => value != null && value.isNotEmpty,
+          'Deadline harus diisi',
+        ),
+        MapEntry(
+          (value) => value != null && value.length <= 100,
+          'Deadline tidak boleh lebih dari 100 karakter',
+        ),
+      ],
     );
   }
 
