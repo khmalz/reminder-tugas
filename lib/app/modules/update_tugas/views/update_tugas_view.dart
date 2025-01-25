@@ -101,7 +101,10 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                       child: Obx(
                         () => DropdownSearch<Map<String, dynamic>>(
                           itemAsString: (item) => item['title'],
-                          // clearButtonProps: const ClearButtonProps(isVisible: true),
+                          popupProps: const PopupProps.menu(
+                            showSearchBox: false,
+                            fit: FlexFit.loose,
+                          ),
                           items: controller.specName,
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
@@ -144,7 +147,8 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                       child: Obx(
                         () => DropdownSearch<Map<String, dynamic>>(
                           popupProps: const PopupProps.menu(
-                            showSearchBox: true,
+                            showSearchBox: false,
+                            fit: FlexFit.loose,
                           ),
                           itemAsString: (item) => item['title'],
                           // clearButtonProps: const ClearButtonProps(isVisible: true),
@@ -190,7 +194,8 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                       child: Obx(
                         () => DropdownSearch<Map<String, dynamic>>(
                           popupProps: const PopupProps.menu(
-                            showSearchBox: true,
+                            showSearchBox: false,
+                            fit: FlexFit.loose,
                           ),
                           itemAsString: (item) => item['title'],
                           // clearButtonProps: const ClearButtonProps(isVisible: true),

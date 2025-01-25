@@ -100,7 +100,10 @@ class CreateTugasView extends GetView<CreateTugasController> {
                       child: Obx(
                         () => DropdownSearch<Map<String, dynamic>>(
                           itemAsString: (item) => item['title'],
-                          // clearButtonProps: const ClearButtonProps(isVisible: true),
+                          popupProps: const PopupProps.menu(
+                            showSearchBox: false,
+                            fit: FlexFit.loose,
+                          ),
                           items: controller.specName,
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
@@ -143,10 +146,10 @@ class CreateTugasView extends GetView<CreateTugasController> {
                       child: Obx(
                         () => DropdownSearch<Map<String, dynamic>>(
                           popupProps: const PopupProps.menu(
-                            showSearchBox: true,
+                            showSearchBox: false,
+                            fit: FlexFit.loose,
                           ),
                           itemAsString: (item) => item['title'],
-                          // clearButtonProps: const ClearButtonProps(isVisible: true),
                           items: controller.specType,
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
@@ -189,10 +192,10 @@ class CreateTugasView extends GetView<CreateTugasController> {
                       child: Obx(
                         () => DropdownSearch<Map<String, dynamic>>(
                           popupProps: const PopupProps.menu(
-                            showSearchBox: true,
+                            showSearchBox: false,
+                            fit: FlexFit.loose,
                           ),
                           itemAsString: (item) => item['title'],
-                          // clearButtonProps: const ClearButtonProps(isVisible: true),
                           items: controller.specCollection,
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
