@@ -56,7 +56,7 @@ class CategoryView extends GetView<CategoryController> {
                               errorText: controller.errorTitle.value,
                               errorStyle: const TextStyle(
                                 color: Colors.red,
-                                fontSize: 14,
+                                fontSize: 12,
                               ),
                             ),
                             keyboardType: TextInputType.text,
@@ -103,7 +103,7 @@ class CategoryView extends GetView<CategoryController> {
                                 errorText: controller.errorJenis.value,
                                 errorStyle: const TextStyle(
                                   color: Colors.red,
-                                  fontSize: 14,
+                                  fontSize: 12,
                                 ),
                               ),
                             ),
@@ -149,7 +149,7 @@ class CategoryView extends GetView<CategoryController> {
             'Nama',
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -157,7 +157,7 @@ class CategoryView extends GetView<CategoryController> {
             'Tipe',
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -165,7 +165,7 @@ class CategoryView extends GetView<CategoryController> {
             'Pengumpulan',
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
           )
@@ -181,7 +181,7 @@ class CategoryView extends GetView<CategoryController> {
                   title: Text(
                     item['title'] ?? 'No Title',
                     style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -204,7 +204,7 @@ class CategoryView extends GetView<CategoryController> {
                         },
                         icon: Icon(
                           Icons.delete,
-                          size: 32,
+                          size: 28,
                           color: textSecondary,
                         ),
                       ),
@@ -224,7 +224,7 @@ class CategoryView extends GetView<CategoryController> {
                   title: Text(
                     item['title'] ?? 'No Title',
                     style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -247,7 +247,7 @@ class CategoryView extends GetView<CategoryController> {
                         },
                         icon: Icon(
                           Icons.delete,
-                          size: 32,
+                          size: 28,
                           color: textSecondary,
                         ),
                       ),
@@ -269,7 +269,7 @@ class CategoryView extends GetView<CategoryController> {
                   title: Text(
                     item['title'] ?? 'No Title',
                     style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -292,7 +292,7 @@ class CategoryView extends GetView<CategoryController> {
                         },
                         icon: Icon(
                           Icons.delete,
-                          size: 32,
+                          size: 28,
                           color: textSecondary,
                         ),
                       ),

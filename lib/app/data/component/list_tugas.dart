@@ -36,7 +36,7 @@ class ListTugas extends StatelessWidget {
           Text(
             namaTugas,
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 16,
               fontWeight: FontWeight.w500,
               decoration: isDone == true ? TextDecoration.lineThrough : null,
             ),
@@ -44,7 +44,7 @@ class ListTugas extends StatelessWidget {
           Text(
             "$tipe | $pengumpulan",
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 16,
               decoration: isDone == true ? TextDecoration.lineThrough : null,
             ),
           ),
@@ -56,7 +56,7 @@ class ListTugas extends StatelessWidget {
           Text(
             matkul,
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.orange,
               decoration: isDone == true ? TextDecoration.lineThrough : null,
@@ -65,7 +65,7 @@ class ListTugas extends StatelessWidget {
           Text(
             deadline,
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 16,
               fontWeight: FontWeight.w500,
               decoration: isDone == true ? TextDecoration.lineThrough : null,
             ),

@@ -32,7 +32,7 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                     Expanded(
                       child: const Text(
                         "Mata Kuliah",
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                     Expanded(
@@ -45,7 +45,9 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                           },
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 15),
+                              horizontal: 15,
+                              vertical: 15,
+                            ),
                             hintStyle: TextStyle(
                               color: Colors.black45,
                             ),
@@ -67,7 +69,7 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                             errorText: controller.errorMatkul.value,
                             errorStyle: const TextStyle(
                               color: Colors.red,
-                              fontSize: 14,
+                              fontSize: 12,
                             ),
                             errorBorder: OutlineInputBorder(
                               borderSide:
@@ -92,7 +94,7 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                     Expanded(
                       child: const Text(
                         "Jenis Tugas",
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                     Expanded(
@@ -113,7 +115,7 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                               errorText: controller.errorJenis.value,
                               errorStyle: const TextStyle(
                                 color: Colors.red,
-                                fontSize: 14,
+                                fontSize: 12,
                               ),
                             ),
                           ),
@@ -135,7 +137,7 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                     Expanded(
                       child: const Text(
                         "Tipe Tugas",
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                     Expanded(
@@ -159,7 +161,7 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                               errorText: controller.errorTipe.value,
                               errorStyle: const TextStyle(
                                 color: Colors.red,
-                                fontSize: 14,
+                                fontSize: 12,
                               ),
                             ),
                           ),
@@ -181,7 +183,7 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                     Expanded(
                       child: const Text(
                         "Pengumpulan",
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                     Expanded(
@@ -205,7 +207,7 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                               errorText: controller.errorPengumpulan.value,
                               errorStyle: const TextStyle(
                                 color: Colors.red,
-                                fontSize: 14,
+                                fontSize: 12,
                               ),
                             ),
                           ),
@@ -227,7 +229,7 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                     Expanded(
                       child: Text(
                         "Deadline",
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                     Expanded(
@@ -249,7 +251,7 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                                         Text(
                                           'Pilih Tanggal',
                                           style: TextStyle(
-                                              fontSize: 20,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Flexible(
@@ -306,7 +308,7 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                             errorText: controller.errorDeadline.value,
                             errorStyle: const TextStyle(
                               color: Colors.red,
-                              fontSize: 14,
+                              fontSize: 12,
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -345,7 +347,7 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                     child: Text(
                       'Save',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                       ),
                     ),
                   ),

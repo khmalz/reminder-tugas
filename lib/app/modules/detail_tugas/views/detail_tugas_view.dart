@@ -55,7 +55,7 @@ class DetailTugasView extends GetView<DetailTugasController> {
                     color: textPrimary,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
+                        color: Colors.grey.withAlpha(100),
                         spreadRadius: 2,
                         blurRadius: 3,
                       ),
@@ -66,7 +66,7 @@ class DetailTugasView extends GetView<DetailTugasController> {
                     children: [
                       Text(
                         '${tugas.matkul} - ${tugas.name}',
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 18),
                       ),
                     ],
                   ),
@@ -89,11 +89,11 @@ class DetailTugasView extends GetView<DetailTugasController> {
                             children: [
                               const Text(
                                 "Tipe Tugas",
-                                style: TextStyle(fontSize: 20),
+                                style: TextStyle(fontSize: 16),
                               ),
                               Text(
                                 tugas.type!,
-                                style: TextStyle(fontSize: 20),
+                                style: TextStyle(fontSize: 16),
                               ),
                             ],
                           ),
@@ -103,11 +103,11 @@ class DetailTugasView extends GetView<DetailTugasController> {
                             children: [
                               const Text(
                                 "Pengumpulan Tugas",
-                                style: TextStyle(fontSize: 20),
+                                style: TextStyle(fontSize: 16),
                               ),
                               Text(
                                 tugas.collection!,
-                                style: TextStyle(fontSize: 20),
+                                style: TextStyle(fontSize: 16),
                               ),
                             ],
                           ),
@@ -117,13 +117,13 @@ class DetailTugasView extends GetView<DetailTugasController> {
                             children: [
                               const Text(
                                 "Deadline Tugas",
-                                style: TextStyle(fontSize: 20),
+                                style: TextStyle(fontSize: 16),
                               ),
                               // Membungkus Text dalam Flexible
                               Flexible(
                                 child: Text(
                                   tugas.deadline!,
-                                  style: TextStyle(fontSize: 20),
+                                  style: TextStyle(fontSize: 16),
                                   maxLines: 2, // Mengatur jumlah maksimum baris
                                   overflow: TextOverflow
                                       .ellipsis, // Menambahkan titik-titik jika lebih dari 2 baris

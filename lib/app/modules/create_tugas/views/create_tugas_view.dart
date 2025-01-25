@@ -33,7 +33,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                     Expanded(
                       child: const Text(
                         "Mata Kuliah",
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                     Expanded(
@@ -68,7 +68,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                             errorText: controller.errorMatkul.value,
                             errorStyle: const TextStyle(
                               color: Colors.red,
-                              fontSize: 14,
+                              fontSize: 12,
                             ),
                             errorBorder: OutlineInputBorder(
                               borderSide:
@@ -93,7 +93,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                     Expanded(
                       child: const Text(
                         "Jenis Tugas",
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                     Expanded(
@@ -114,7 +114,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                               errorText: controller.errorJenis.value,
                               errorStyle: const TextStyle(
                                 color: Colors.red,
-                                fontSize: 14,
+                                fontSize: 12,
                               ),
                             ),
                           ),
@@ -136,7 +136,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                     Expanded(
                       child: const Text(
                         "Tipe Tugas",
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                     Expanded(
@@ -160,7 +160,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                               errorText: controller.errorTipe.value,
                               errorStyle: const TextStyle(
                                 color: Colors.red,
-                                fontSize: 14,
+                                fontSize: 12,
                               ),
                             ),
                           ),
@@ -182,7 +182,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                     Expanded(
                       child: const Text(
                         "Pengumpulan",
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                     Expanded(
@@ -206,7 +206,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                               errorText: controller.errorPengumpulan.value,
                               errorStyle: const TextStyle(
                                 color: Colors.red,
-                                fontSize: 14,
+                                fontSize: 12,
                               ),
                             ),
                           ),
@@ -228,7 +228,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                     Expanded(
                       child: Text(
                         "Deadline",
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                     Expanded(
@@ -250,8 +250,9 @@ class CreateTugasView extends GetView<CreateTugasController> {
                                         Text(
                                           'Pilih Tanggal',
                                           style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                         Flexible(
                                           child: CalendarDatePicker2(
@@ -307,7 +308,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                             errorText: controller.errorDeadline.value,
                             errorStyle: const TextStyle(
                               color: Colors.red,
-                              fontSize: 14,
+                              fontSize: 12,
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -346,7 +347,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                     child: Text(
                       'Save',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                       ),
                     ),
                   ),

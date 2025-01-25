@@ -44,7 +44,7 @@ class HomeView extends GetView<HomeController> {
                       label: const Text('Kategori',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 18,
+                            fontSize: 16,
                           )),
                     ),
                   ]),
@@ -94,7 +94,7 @@ class HomeView extends GetView<HomeController> {
                             const Text(
                               'Telat',
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: textSecondary,
                               ),
@@ -102,7 +102,7 @@ class HomeView extends GetView<HomeController> {
                             Text(
                               controller.statList.value[0]['late'].toString(),
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.red,
                               ),
@@ -115,7 +115,7 @@ class HomeView extends GetView<HomeController> {
                             const Text(
                               'Belum',
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: textSecondary,
                               ),
@@ -124,7 +124,7 @@ class HomeView extends GetView<HomeController> {
                               controller.statList.value[1]['pending']
                                   .toString(),
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.amber.shade700,
                               ),
@@ -137,7 +137,7 @@ class HomeView extends GetView<HomeController> {
                             const Text(
                               'Sudah',
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: textSecondary,
                               ),
@@ -145,7 +145,7 @@ class HomeView extends GetView<HomeController> {
                             Text(
                               controller.statList.value[2]['done'].toString(),
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.green,
                               ),
