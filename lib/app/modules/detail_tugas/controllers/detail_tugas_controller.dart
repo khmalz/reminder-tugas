@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:reminder_tugas/app/data/constant/talker.dart';
 import 'package:reminder_tugas/app/data/models/task_model.dart';
+import 'package:reminder_tugas/app/data/provider/logging_provider.dart';
 import 'package:reminder_tugas/app/routes/app_pages.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 class DetailTugasController extends GetxController {
   String id = Get.parameters['id'].toString();
+  final Talker talker = LoggingProvider.talker;
 
   Future<void> deleteTask(String id) async {
     try {
       final box = await Hive.openBox<Task>('main');
       final key = box.keys.firstWhere((key) => box.get(key)!.id == id);
       await box.delete(key);
+
+      talker.logCustom(LogGood('Task deleted successfully!'));
 
       Get.offAllNamed(Routes.HOME);
     } catch (e) {
@@ -22,7 +28,8 @@ class DetailTugasController extends GetxController {
         borderRadius: 8,
       );
 
-      debugPrint('Error deleting task: $e');
+      // debugPrint('Error deleting task: $e');
+      talker.error("Error deleting task: $e");
     }
   }
 
@@ -35,10 +42,14 @@ class DetailTugasController extends GetxController {
 
       await box.put(key, task);
 
-      debugPrint("Task updated successfully!");
+      talker.logCustom(status
+          ? LogGood('Task completed successfully!')
+          : LogGood('Task cancelled successfully!'));
+
       Get.offAllNamed(Routes.HOME);
     } catch (e) {
-      debugPrint('Error updating task: $e');
+      // debugPrint('Error updating task: $e');
+      talker.error("Error updating task: $e");
     }
   }
 
@@ -46,6 +57,8 @@ class DetailTugasController extends GetxController {
     try {
       final box = await Hive.openBox<Task>('main');
       Task taskData = box.values.firstWhere((task) => task.id == id);
+
+      talker.info("Task loaded successfully!");
 
       return taskData;
     } catch (e) {
@@ -55,7 +68,8 @@ class DetailTugasController extends GetxController {
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         borderRadius: 8,
       );
-      debugPrint('Error loading task: $e');
+      // debugPrint('Error loading task: $e');
+      talker.error("Error loading task: $e");
       return null;
     }
   }

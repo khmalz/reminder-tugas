@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+import 'package:reminder_tugas/app/data/constant/talker.dart';
 import 'package:reminder_tugas/app/data/models/task_model.dart';
+import 'package:reminder_tugas/app/data/provider/logging_provider.dart';
 import 'package:reminder_tugas/app/helper/validate_input.dart';
 import 'package:reminder_tugas/app/routes/app_pages.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 class UpdateTugasController extends GetxController {
+  final Talker talker = LoggingProvider.talker;
   Task task = Task.fromJson(Get.arguments);
 
   // VALIDATION
@@ -154,6 +158,7 @@ class UpdateTugasController extends GetxController {
 
   Future<void> updateTask() async {
     if (!hasInputChanged()) {
+      talker.warning('Tugas belum ada yang berubah.');
       Get.rawSnackbar(
         message: 'Tugas belum ada yang berubah.',
         backgroundColor: Colors.amber.shade800,
@@ -173,6 +178,7 @@ class UpdateTugasController extends GetxController {
     isValidate &= validateDeadline();
 
     if (!isValidate) {
+      talker.warning('Kamu harus mengisi semua form terlebih dahulu.');
       Get.rawSnackbar(
         message: 'Kamu harus mengisi semua form terlebih dahulu.',
         backgroundColor: Colors.red,
@@ -200,7 +206,8 @@ class UpdateTugasController extends GetxController {
       Task taskUpdate = Task.fromJson(taskData);
       await box.put(key, taskUpdate);
 
-      debugPrint('Task updated successfully');
+      // debugPrint('Task updated successfully');
+      talker.logCustom(LogGood('Task updated successfully'));
 
       Get.offAllNamed(Routes.HOME);
     } catch (e) {
@@ -211,7 +218,8 @@ class UpdateTugasController extends GetxController {
         borderRadius: 8,
       );
 
-      debugPrint('Error updating task: $e');
+      // debugPrint('Error updating task: $e');
+      talker.error("Error updating task: $e");
     }
   }
 }

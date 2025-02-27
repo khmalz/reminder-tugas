@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:reminder_tugas/app/data/constant/talker.dart';
+import 'package:reminder_tugas/app/data/provider/logging_provider.dart';
 import 'package:reminder_tugas/app/helper/validate_input.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 class CategoryController extends GetxController {
+  // LOGGING
+  final Talker talker = LoggingProvider.talker;
   // VALIDATION
   TextEditingController title = TextEditingController();
   Rxn<Map<String, dynamic>> jenis = Rxn<Map<String, dynamic>>(null);
@@ -77,6 +82,7 @@ class CategoryController extends GetxController {
     isValidate &= validateJenis();
 
     if (!isValidate) {
+      talker.warning('Kamu harus mengisi semua form terlebih dahulu.');
       Get.rawSnackbar(
         message: 'Kamu harus mengisi semua form terlebih dahulu.',
         backgroundColor: Colors.red,
@@ -108,9 +114,12 @@ class CategoryController extends GetxController {
       await getSpecTask();
 
       clearInput();
-      debugPrint("Data added successfully to document: $category");
+      // debugPrint("Data added successfully to document: $category");
+      talker
+          .logCustom(LogGood('Data added successfully to document: $category'));
     } catch (e) {
-      debugPrint("Error adding spec: $e");
+      // debugPrint("Error adding spec: $e");
+      talker.error("Error adding spec: $e");
     }
   }
 
@@ -127,10 +136,12 @@ class CategoryController extends GetxController {
       await specBox.put(category, specList);
 
       await getSpecTask();
-      debugPrint(
-          'Data dengan code $code berhasil dihapus dari kategori $category');
+      talker.logCustom(LogGood('Data with code $code deleted successfully!'));
+      // debugPrint(
+      //     'Data dengan code $code berhasil dihapus dari kategori $category');
     } catch (e) {
-      debugPrint('Error deleting spec: $e');
+      // debugPrint('Error deleting spec: $e');
+      talker.error("Error deleting spec: $e");
     }
   }
 

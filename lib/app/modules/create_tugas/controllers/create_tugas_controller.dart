@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:reminder_tugas/app/data/constant/talker.dart';
 import 'package:reminder_tugas/app/data/models/task_model.dart';
+import 'package:reminder_tugas/app/data/provider/logging_provider.dart';
 import 'package:reminder_tugas/app/helper/id_generator.dart';
 import 'package:reminder_tugas/app/helper/validate_input.dart';
 import 'package:reminder_tugas/app/routes/app_pages.dart';
+import 'package:talker_flutter/talker_flutter.dart' show Talker;
 
 class CreateTugasController extends GetxController {
+  // LOGGING
+  final Talker talker = LoggingProvider.talker;
+
   // VALIDATION
   Rxn<Map<String, dynamic>> jenisTugas = Rxn<Map<String, dynamic>>(null);
   Rxn<Map<String, dynamic>> tipeTugas = Rxn<Map<String, dynamic>>(null);
@@ -158,7 +164,8 @@ class CreateTugasController extends GetxController {
       final box = await Hive.openBox<Task>('main');
       box.add(Task.fromJson(taskData));
 
-      debugPrint('Task created successfully');
+      // debugPrint('Task created successfully');
+      talker.logCustom(LogGood('Task created successfully'));
 
       Get.offAllNamed(Routes.HOME);
     } catch (e) {

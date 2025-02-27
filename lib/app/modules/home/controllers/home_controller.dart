@@ -3,8 +3,11 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:reminder_tugas/app/data/models/task_model.dart';
+import 'package:reminder_tugas/app/data/provider/logging_provider.dart';
+import 'package:talker_flutter/talker_flutter.dart' show Talker;
 
 class HomeController extends GetxController {
+  final Talker talker = LoggingProvider.talker;
   Rx<List<Map<String, int>>> statList = Rx<List<Map<String, int>>>([
     {"late": 0},
     {"pending": 0},
@@ -57,6 +60,9 @@ class HomeController extends GetxController {
       {"pending": pending},
       {"done": done},
     ];
+
+    talker.info('Task loaded successfully!');
+    talker.debug({'tasksLen': tasks.length, 'statList': statList.value});
 
     return tasks;
   }

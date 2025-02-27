@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_popup/flutter_popup.dart';
 
 import 'package:get/get.dart';
+import 'package:reminder_tugas/app/data/constant/talker.dart';
+import 'package:talker_flutter/talker_flutter.dart'
+    show TalkerScreen, TalkerScreenTheme;
 
 import '../../../data/component/list_tugas.dart';
 import '../../../data/constant/color.dart';
@@ -30,10 +33,13 @@ class HomeView extends GetView<HomeController> {
             content: SizedBox(
               width: 0.4 * Get.width,
               child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextButton.icon(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: TextButton.icon(
+                      iconAlignment: IconAlignment.start,
                       onPressed: () {
                         Get.toNamed(Routes.CATEGORY);
                       },
@@ -41,19 +47,56 @@ class HomeView extends GetView<HomeController> {
                         Icons.content_paste,
                         size: 30,
                       ),
-                      label: const Text('Kategori',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                          )),
+                      label: const Text(
+                        'Kategori',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                        ),
+                      ),
+                      style: TextButton.styleFrom(
+                        alignment: Alignment.centerLeft,
+                      ),
                     ),
-                  ]),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: TextButton.icon(
+                      iconAlignment: IconAlignment.start,
+                      onPressed: () {
+                        Get.to(
+                          () => TalkerScreen(
+                            talker: controller.talker,
+                            theme: TalkerScreenTheme(logColors: {
+                              LogGood.logKey: Colors.green,
+                            }),
+                          ),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.settings,
+                        size: 30,
+                      ),
+                      label: const Text(
+                        'Talker',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                        ),
+                      ),
+                      style: TextButton.styleFrom(
+                        alignment: Alignment.centerLeft,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Icon(Icons.more_vert),
             ),
-          ),
+          )
         ],
       ),
       body: FutureBuilder(

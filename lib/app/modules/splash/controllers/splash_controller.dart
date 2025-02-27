@@ -1,10 +1,13 @@
-import 'package:flutter/material.dart' show debugPrint;
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:reminder_tugas/app/data/constant/spec_task.dart' as spec;
+import 'package:reminder_tugas/app/data/provider/logging_provider.dart';
 import 'package:reminder_tugas/app/routes/app_pages.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 class SplashController extends GetxController {
+  final Talker talker = LoggingProvider.talker;
+
   @override
   void onInit() async {
     super.onInit();
@@ -25,13 +28,13 @@ class SplashController extends GetxController {
 
     if (specBox.isEmpty) {
       await specBox.clear();
-      debugPrint('Kosong');
+      talker.info('Kosong');
 
       await specBox.put('name', spec.specName);
       await specBox.put('type', spec.specType);
       await specBox.put('collection', spec.specCollection);
     } else {
-      debugPrint('Tidak Kosong');
+      talker.info('Tidak Kosong');
     }
   }
 }

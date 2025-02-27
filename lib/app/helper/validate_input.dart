@@ -1,3 +1,5 @@
+import 'package:reminder_tugas/app/data/provider/logging_provider.dart';
+
 bool validateInput<T>({
   required T? value,
   required Function(String?) setError,
@@ -8,6 +10,8 @@ bool validateInput<T>({
     var errorMessage = entry.value;
     if (!validator(value)) {
       setError(errorMessage);
+      LoggingProvider.talker.warning(errorMessage);
+
       return false;
     }
   }
