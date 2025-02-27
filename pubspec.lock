@@ -899,7 +899,7 @@ packages:
     source: hosted
     version: "1.4.1"
   talker:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: talker
       sha256: "5ab7d974ad92042b3e2382441c41ec4c6e5b3fa2b4b024d8ccbfc4bc2244b7bb"
