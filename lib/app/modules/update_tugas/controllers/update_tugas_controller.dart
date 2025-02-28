@@ -34,11 +34,11 @@ class UpdateTugasController extends GetxController {
       validatorsWithMessages: [
         MapEntry(
           (value) => value != null && value.isNotEmpty,
-          'Mata kuliah harus diisi',
+          'Harus diisi',
         ),
         MapEntry(
-          (value) => value != null && value.length <= 100,
-          'Mata kuliah tidak boleh lebih dari 100 karakter',
+          (value) => value != null && value.length <= 20,
+          'Maksimal 20 karakter',
         ),
       ],
     );
@@ -51,7 +51,7 @@ class UpdateTugasController extends GetxController {
       validatorsWithMessages: [
         MapEntry(
           (value) => value != null,
-          'Jenis tugas harus dipilih',
+          'Harus dipilih',
         ),
       ],
     );
@@ -64,7 +64,7 @@ class UpdateTugasController extends GetxController {
       validatorsWithMessages: [
         MapEntry(
           (value) => value != null,
-          'Tipe tugas harus dipilih',
+          'Harus dipilih',
         ),
       ],
     );
@@ -77,7 +77,7 @@ class UpdateTugasController extends GetxController {
       validatorsWithMessages: [
         MapEntry(
           (value) => value != null,
-          'Pengumpulan harus dipilih',
+          'Harus dipilih',
         ),
       ],
     );
@@ -90,11 +90,11 @@ class UpdateTugasController extends GetxController {
       validatorsWithMessages: [
         MapEntry(
           (value) => value != null && value.isNotEmpty,
-          'Deadline harus diisi',
+          'Harus diisi',
         ),
         MapEntry(
-          (value) => value != null && value.length <= 100,
-          'Deadline tidak boleh lebih dari 100 karakter',
+          (value) => value != null && value.length <= 30,
+          'Maksimal 30 karakter',
         ),
       ],
     );
@@ -158,9 +158,9 @@ class UpdateTugasController extends GetxController {
 
   Future<void> updateTask() async {
     if (!hasInputChanged()) {
-      talker.warning('Tugas belum ada yang berubah.');
+      talker.warning('Belum ada yang berubah.');
       Get.rawSnackbar(
-        message: 'Tugas belum ada yang berubah.',
+        message: 'Belum ada yang berubah.',
         backgroundColor: Colors.amber.shade800,
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         borderRadius: 8,
@@ -178,9 +178,9 @@ class UpdateTugasController extends GetxController {
     isValidate &= validateDeadline();
 
     if (!isValidate) {
-      talker.warning('Kamu harus mengisi semua form terlebih dahulu.');
+      talker.warning('Semua form harus diisi');
       Get.rawSnackbar(
-        message: 'Kamu harus mengisi semua form terlebih dahulu.',
+        message: 'Semua form harus diisi',
         backgroundColor: Colors.red,
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         borderRadius: 8,
@@ -206,7 +206,6 @@ class UpdateTugasController extends GetxController {
       Task taskUpdate = Task.fromJson(taskData);
       await box.put(key, taskUpdate);
 
-      // debugPrint('Task updated successfully');
       talker.logCustom(LogGood('Task updated successfully'));
 
       Get.offAllNamed(Routes.HOME);
@@ -218,7 +217,6 @@ class UpdateTugasController extends GetxController {
         borderRadius: 8,
       );
 
-      // debugPrint('Error updating task: $e');
       talker.error("Error updating task: $e");
     }
   }
