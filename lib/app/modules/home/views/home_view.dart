@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_popup/flutter_popup.dart';
-
 import 'package:get/get.dart';
-import 'package:reminder_tugas/app/data/constant/talker.dart';
-import 'package:talker_flutter/talker_flutter.dart'
-    show TalkerScreen, TalkerScreenTheme;
+import 'package:reminder_tugas/app/data/constant/color.dart';
 
-import '../../../data/component/list_tugas.dart';
-import '../../../data/constant/color.dart';
-import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
+import '../widgets/column_stats.dart';
+import '../widgets/dropdown_home.dart';
+import '../widgets/floating_add_button.dart';
+import '../widgets/list_tugas.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -23,80 +20,7 @@ class HomeView extends GetView<HomeController> {
         centerTitle: true,
         foregroundColor: textPrimary,
         actions: [
-          CustomPopup(
-            showArrow: false,
-            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            barrierColor: Colors.transparent,
-            contentDecoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            content: SizedBox(
-              width: 0.4 * Get.width,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: TextButton.icon(
-                      iconAlignment: IconAlignment.start,
-                      onPressed: () {
-                        Get.toNamed(Routes.CATEGORY);
-                      },
-                      icon: const Icon(
-                        Icons.content_paste,
-                        size: 30,
-                      ),
-                      label: const Text(
-                        'Kategori',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                      ),
-                      style: TextButton.styleFrom(
-                        alignment: Alignment.centerLeft,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: TextButton.icon(
-                      iconAlignment: IconAlignment.start,
-                      onPressed: () {
-                        Get.to(
-                          () => TalkerScreen(
-                            talker: controller.talker,
-                            theme: TalkerScreenTheme(logColors: {
-                              LogGood.logKey: Colors.green,
-                            }),
-                          ),
-                        );
-                      },
-                      icon: const Icon(
-                        Icons.settings,
-                        size: 30,
-                      ),
-                      label: const Text(
-                        'Talker',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                      ),
-                      style: TextButton.styleFrom(
-                        alignment: Alignment.centerLeft,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(Icons.more_vert),
-            ),
-          )
+          DropdownHome(talker: controller.talker),
         ],
       ),
       body: FutureBuilder(
@@ -113,90 +37,8 @@ class HomeView extends GetView<HomeController> {
 
               return ListView(
                 children: [
-                  Container(
-                    height: 70,
-                    decoration: BoxDecoration(
-                      color: textPrimary,
-                      boxShadow: [
-                        BoxShadow(
-                          // ignore: deprecated_member_use
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Telat',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: textSecondary,
-                              ),
-                            ),
-                            Text(
-                              controller.statList.value[0]['late'].toString(),
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Belum',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: textSecondary,
-                              ),
-                            ),
-                            Text(
-                              controller.statList.value[1]['pending']
-                                  .toString(),
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.amber.shade700,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Sudah',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: textSecondary,
-                              ),
-                            ),
-                            Text(
-                              controller.statList.value[2]['done'].toString(),
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                  ColumnStats(
+                    statList: controller.statList,
                   ),
                   Column(
                     children: tugasList
@@ -215,15 +57,7 @@ class HomeView extends GetView<HomeController> {
               );
             }
           }),
-      floatingActionButton: SizedBox(
-        width: 70,
-        height: 70,
-        child: FloatingActionButton(
-          onPressed: () => Get.toNamed(Routes.CREATE_TUGAS),
-          backgroundColor: primary,
-          child: Icon(Icons.add, color: textPrimary),
-        ),
-      ),
+      floatingActionButton: FloatingAddButton(),
     );
   }
 }

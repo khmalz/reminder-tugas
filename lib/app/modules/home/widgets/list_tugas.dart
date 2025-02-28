@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:reminder_tugas/app/data/constant/color.dart';
 
-import '../../routes/app_pages.dart';
+import '../../../routes/app_pages.dart';
 
-class ListTugas extends StatelessWidget {
+class ListTugas extends GetWidget {
   const ListTugas({
     super.key,
     required this.id,
