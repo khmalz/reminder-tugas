@@ -298,8 +298,6 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                                 );
                               },
                             );
-
-                            debugPrint(controller.dates.toString());
                           },
                           readOnly: true,
                           decoration: InputDecoration(

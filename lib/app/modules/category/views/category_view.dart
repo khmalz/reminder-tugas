@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:reminder_tugas/app/data/constant/color.dart';
+import 'package:reminder_tugas/app/data/provider/logging_provider.dart';
 
 import '../controllers/category_controller.dart';
 
@@ -264,7 +265,7 @@ class CategoryView extends GetView<CategoryController> {
                 final item = controller.specCollection[index];
                 return ListTile(
                   onTap: () {
-                    debugPrint(item['code']);
+                    LoggingProvider.talker.info(item['code']);
                   },
                   title: Text(
                     item['title'] ?? 'No Title',

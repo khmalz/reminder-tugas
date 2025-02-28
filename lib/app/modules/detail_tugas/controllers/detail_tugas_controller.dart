@@ -28,7 +28,6 @@ class DetailTugasController extends GetxController {
         borderRadius: 8,
       );
 
-      // debugPrint('Error deleting task: $e');
       talker.error("Error deleting task: $e");
     }
   }
@@ -48,7 +47,6 @@ class DetailTugasController extends GetxController {
 
       Get.offAllNamed(Routes.HOME);
     } catch (e) {
-      // debugPrint('Error updating task: $e');
       talker.error("Error updating task: $e");
     }
   }
@@ -58,7 +56,7 @@ class DetailTugasController extends GetxController {
       final box = await Hive.openBox<Task>('main');
       Task taskData = box.values.firstWhere((task) => task.id == id);
 
-      talker.info("Task loaded successfully!");
+      talker.info("Task detail loaded successfully!");
 
       return taskData;
     } catch (e) {
@@ -68,7 +66,6 @@ class DetailTugasController extends GetxController {
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         borderRadius: 8,
       );
-      // debugPrint('Error loading task: $e');
       talker.error("Error loading task: $e");
       return null;
     }

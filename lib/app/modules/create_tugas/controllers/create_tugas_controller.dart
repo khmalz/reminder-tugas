@@ -140,6 +140,7 @@ class CreateTugasController extends GetxController {
     isValidate &= validateDeadline();
 
     if (!isValidate) {
+      talker.warning('Semua form harus diisi');
       Get.rawSnackbar(
         message: 'Semua form harus diisi',
         backgroundColor: Colors.red,
@@ -164,12 +165,18 @@ class CreateTugasController extends GetxController {
       final box = await Hive.openBox<Task>('main');
       box.add(Task.fromJson(taskData));
 
-      // debugPrint('Task created successfully');
       talker.logCustom(LogGood('Task created successfully'));
 
       Get.offAllNamed(Routes.HOME);
     } catch (e) {
-      debugPrint('Error creating task: $e');
+      Get.rawSnackbar(
+        message: "Failed to create task: ${e.toString()}",
+        backgroundColor: Colors.red,
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        borderRadius: 8,
+      );
+
+      talker.error("Error creating task: $e");
     }
   }
 }

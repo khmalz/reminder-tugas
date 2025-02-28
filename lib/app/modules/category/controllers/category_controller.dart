@@ -114,11 +114,9 @@ class CategoryController extends GetxController {
       await getSpecTask();
 
       clearInput();
-      // debugPrint("Data added successfully to document: $category");
       talker
           .logCustom(LogGood('Data added successfully to document: $category'));
     } catch (e) {
-      // debugPrint("Error adding spec: $e");
       talker.error("Error adding spec: $e");
     }
   }
@@ -137,10 +135,7 @@ class CategoryController extends GetxController {
 
       await getSpecTask();
       talker.logCustom(LogGood('Data with code $code deleted successfully!'));
-      // debugPrint(
-      //     'Data dengan code $code berhasil dihapus dari kategori $category');
     } catch (e) {
-      // debugPrint('Error deleting spec: $e');
       talker.error("Error deleting spec: $e");
     }
   }
