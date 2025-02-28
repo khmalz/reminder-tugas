@@ -43,6 +43,7 @@ class UpdateTugasView extends GetView<UpdateTugasController> {
                           onChanged: (value) {
                             controller.validateMatkul();
                           },
+                          textCapitalization: TextCapitalization.sentences,
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.symmetric(
                               horizontal: 15,

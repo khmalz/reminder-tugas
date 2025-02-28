@@ -44,6 +44,7 @@ class CreateTugasView extends GetView<CreateTugasController> {
                           onChanged: (value) {
                             controller.validateMatkul();
                           },
+                          textCapitalization: TextCapitalization.sentences,
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 15, vertical: 15),
@@ -296,8 +297,6 @@ class CreateTugasView extends GetView<CreateTugasController> {
                                 );
                               },
                             );
-
-                            debugPrint(controller.dates.toString());
                           },
                           readOnly: true,
                           decoration: InputDecoration(
