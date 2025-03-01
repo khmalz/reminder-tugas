@@ -59,7 +59,7 @@ class UpdateTaskForm extends GetWidget<UpdateTugasController> {
           const SizedBox(height: 20),
           Button(
             text: 'Save Changes',
-            onSave: () => controller.updateTask(),
+            onClick: () => controller.updateTask(),
           ),
         ],
       ),
