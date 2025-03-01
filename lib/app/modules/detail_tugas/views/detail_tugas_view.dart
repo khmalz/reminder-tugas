@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:reminder_tugas/app/data/constant/color.dart';
+import 'package:reminder_tugas/app/data/widgets/button.dart';
 import 'package:reminder_tugas/app/routes/app_pages.dart';
 
 import '../controllers/detail_tugas_controller.dart';
+import '../widgets/content.dart';
+import '../widgets/header.dart';
 
 class DetailTugasView extends GetView<DetailTugasController> {
   const DetailTugasView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,142 +46,49 @@ class DetailTugasView extends GetView<DetailTugasController> {
             return Center(
               child: Text('Error: ${snapshot.error}'),
             );
-          } else if (snapshot.hasData) {
+          } else if (!snapshot.hasData || snapshot.data == null) {
+            return const Center(
+              child: Text('No Data'),
+            );
+          } else {
             var tugas = snapshot.data!;
 
             return ListView(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  width: double.infinity,
-                  height: 70,
-                  decoration: BoxDecoration(
-                    color: textPrimary,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withAlpha(100),
-                        spreadRadius: 2,
-                        blurRadius: 3,
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '${tugas.matkul} - ${tugas.name}',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
-                  ),
+                Header(
+                  name: tugas.name!,
+                  matkul: tugas.matkul!,
                 ),
-                Card(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: textPrimary,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "Tipe Tugas",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              Text(
-                                tugas.type!,
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "Pengumpulan Tugas",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              Text(
-                                tugas.collection!,
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "Deadline Tugas",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              // Membungkus Text dalam Flexible
-                              Flexible(
-                                child: Text(
-                                  tugas.deadline!,
-                                  style: TextStyle(fontSize: 16),
-                                  maxLines: 2, // Mengatur jumlah maksimum baris
-                                  overflow: TextOverflow
-                                      .ellipsis, // Menambahkan titik-titik jika lebih dari 2 baris
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                Content(
+                  tugas: tugas,
                 ),
                 SizedBox(height: 20),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: ElevatedButton(
-                    onPressed: () => Get.toNamed(Routes.UPDATE_TUGAS,
-                        arguments: tugas.toJson()),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepOrange,
-                      minimumSize: const Size(double.infinity, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                Column(
+                  spacing: 10,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Button(
+                        text: 'Edit Tugas',
+                        bgColor: Colors.deepOrange,
+                        onClick: () => Get.toNamed(
+                          Routes.UPDATE_TUGAS,
+                          arguments: tugas,
+                        ),
                       ),
                     ),
-                    child: Text(
-                      'Edit Tugas',
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: ElevatedButton(
-                    onPressed: () => controller.updateStatusTask(tugas.isDone),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: tugas.isDone ? Colors.red : primary,
-                      minimumSize: const Size(double.infinity, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Button(
+                        text: tugas.isDone ? 'Batalkan' : 'Selesaikan Tugas',
+                        bgColor: tugas.isDone ? Colors.red : primary,
+                        onClick: () =>
+                            controller.updateStatusTask(tugas.isDone),
                       ),
                     ),
-                    child: Text(
-                      tugas.isDone ? 'Batalkan' : 'Selesaikan Tugas',
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                  ),
+                  ],
                 ),
               ],
-            );
-          } else {
-            return const Center(
-              child: Text('No Data'),
             );
           }
         },

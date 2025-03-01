@@ -58,7 +58,7 @@ class CreateTaskForm extends GetWidget<CreateTugasController> {
           const SizedBox(height: 20),
           Button(
             text: 'Save',
-            onSave: () => controller.createTask(),
+            onClick: () => controller.createTask(),
           ),
         ],
       ),
