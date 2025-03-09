@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:reminder_tugas/app/data/constant/talker.dart';
 import 'package:reminder_tugas/app/data/provider/logging_provider.dart';
+import 'package:reminder_tugas/app/helper/sorted_list_box.dart';
 import 'package:reminder_tugas/app/helper/validate_input.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -59,20 +60,9 @@ class CategoryController extends GetxController {
   Future<void> getSpecTask() async {
     final specBox = await Hive.openBox('specs');
 
-    specName.value = (specBox.get('name') as List<dynamic>?)
-            ?.map((e) => Map<String, dynamic>.from(e))
-            .toList() ??
-        [];
-
-    specType.value = (specBox.get('type') as List<dynamic>?)
-            ?.map((e) => Map<String, dynamic>.from(e))
-            .toList() ??
-        [];
-
-    specCollection.value = (specBox.get('collection') as List<dynamic>?)
-            ?.map((e) => Map<String, dynamic>.from(e))
-            .toList() ??
-        [];
+    specName.value = getSortedList(specBox, 'name');
+    specType.value = getSortedList(specBox, 'type');
+    specCollection.value = getSortedList(specBox, 'collection');
   }
 
   Future<void> addSpecTask() async {
