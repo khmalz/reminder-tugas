@@ -15,10 +15,12 @@ class UpdateTugasView extends GetView {
         centerTitle: true,
         foregroundColor: textPrimary,
       ),
-      body: ListView(
-        children: [
-          UpdateTaskForm(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            UpdateTaskForm(),
+          ],
+        ),
       ),
     );
   }

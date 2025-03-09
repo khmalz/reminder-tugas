@@ -73,7 +73,7 @@ class DetailTugasView extends GetView<DetailTugasController> {
                         bgColor: Colors.deepOrange,
                         onClick: () => Get.toNamed(
                           Routes.UPDATE_TUGAS,
-                          arguments: tugas,
+                          arguments: tugas.toJson(),
                         ),
                       ),
                     ),
