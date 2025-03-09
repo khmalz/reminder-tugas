@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:reminder_tugas/app/data/constant/color.dart';
+import 'package:reminder_tugas/app/modules/home/controllers/home_controller.dart';
 
-class ColumnStats extends GetWidget {
+class ColumnStats extends GetWidget<HomeController> {
   final Rx<List<Map<String, int>>> statList;
 
   const ColumnStats({

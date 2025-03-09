@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:reminder_tugas/app/data/constant/color.dart';
+import 'package:reminder_tugas/app/modules/home/controllers/home_controller.dart';
 import 'package:reminder_tugas/app/routes/app_pages.dart';
 
-class FloatingAddButton extends GetWidget {
+class FloatingAddButton extends GetWidget<HomeController> {
   const FloatingAddButton({super.key});
 
   @override

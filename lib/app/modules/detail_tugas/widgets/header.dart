@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:reminder_tugas/app/data/constant/color.dart' show textPrimary;
+import 'package:reminder_tugas/app/modules/detail_tugas/controllers/detail_tugas_controller.dart';
 
-class Header extends StatelessWidget {
+class Header extends GetWidget<DetailTugasController> {
   final String matkul;
   final String name;
 

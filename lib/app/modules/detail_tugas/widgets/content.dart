@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:reminder_tugas/app/data/constant/color.dart' show textPrimary;
 import 'package:reminder_tugas/app/data/models/task_model.dart' show Task;
+import 'package:reminder_tugas/app/modules/detail_tugas/controllers/detail_tugas_controller.dart';
 
-class Content extends StatelessWidget {
+class Content extends GetWidget<DetailTugasController> {
   final Task tugas;
 
   const Content({

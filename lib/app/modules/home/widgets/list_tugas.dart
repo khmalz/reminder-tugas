@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:reminder_tugas/app/data/constant/color.dart';
+import 'package:reminder_tugas/app/modules/home/controllers/home_controller.dart';
 
 import '../../../routes/app_pages.dart';
 
-class ListTugas extends GetWidget {
+class ListTugas extends GetWidget<HomeController> {
   const ListTugas({
     super.key,
     required this.id,

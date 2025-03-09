@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_popup/flutter_popup.dart';
 import 'package:get/get.dart';
 import 'package:reminder_tugas/app/data/constant/talker.dart';
+import 'package:reminder_tugas/app/modules/home/controllers/home_controller.dart';
 import 'package:reminder_tugas/app/routes/app_pages.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
-class DropdownHome extends GetWidget {
+class DropdownHome extends GetWidget<HomeController> {
   final Talker talker;
 
   const DropdownHome({
