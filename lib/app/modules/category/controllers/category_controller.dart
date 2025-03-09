@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:reminder_tugas/app/data/constant/talker.dart';
+import 'package:reminder_tugas/app/data/models/task_model.dart';
 import 'package:reminder_tugas/app/data/provider/logging_provider.dart';
 import 'package:reminder_tugas/app/helper/sorted_list_box.dart';
 import 'package:reminder_tugas/app/helper/validate_input.dart';
+import 'package:reminder_tugas/app/modules/home/controllers/home_controller.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 class CategoryController extends GetxController {
@@ -111,7 +113,7 @@ class CategoryController extends GetxController {
     }
   }
 
-  Future<void> deleteSpec(String category, String code) async {
+  Future<void> deleteSpec(String category, String code, String title) async {
     try {
       final specBox = await Hive.openBox('specs');
 
@@ -122,6 +124,29 @@ class CategoryController extends GetxController {
 
       specList.removeWhere((spec) => spec['code'] == code);
       await specBox.put(category, specList);
+
+      final mainBox = await Hive.openBox<Task>('main');
+      List<Task> tasks = mainBox.values.toList();
+
+      bool hasMatchingTask = tasks.any((task) {
+        final taskMap = task.toJson();
+        return taskMap[category] == title;
+      });
+
+      if (tasks.isNotEmpty && hasMatchingTask) {
+        tasks.removeWhere((task) {
+          final taskMap = task.toJson();
+          return taskMap[category] == title;
+        });
+
+        await mainBox.clear();
+        await mainBox.addAll(tasks);
+
+        talker.info('Task with code $code deleted successfully!');
+
+        final HomeController homeController = Get.find<HomeController>();
+        homeController.getTasks();
+      }
 
       await getSpecTask();
       talker.logCustom(LogGood('Data with code $code deleted successfully!'));

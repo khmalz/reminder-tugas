@@ -34,7 +34,7 @@ class DropdownHome extends GetWidget<HomeController> {
               child: TextButton.icon(
                 iconAlignment: IconAlignment.start,
                 onPressed: () {
-                  Get.toNamed(Routes.CATEGORY);
+                  Get.offAndToNamed(Routes.CATEGORY);
                 },
                 icon: const Icon(
                   Icons.content_paste,

@@ -7,6 +7,7 @@ import 'package:talker_flutter/talker_flutter.dart' show Talker;
 
 class HomeController extends GetxController {
   final Talker talker = LoggingProvider.talker;
+  RxList<Task> tasks = <Task>[].obs;
   Rx<List<Map<String, int>>> statList = Rx<List<Map<String, int>>>([
     {"late": 0},
     {"pending": 0},
@@ -14,12 +15,19 @@ class HomeController extends GetxController {
   ]);
 
   @override
+  void onInit() {
+    super.onInit();
+    talker.info('Home controller initialized.');
+    getTasks();
+  }
+
+  @override
   void dispose() {
     Hive.close();
     super.dispose();
   }
 
-  Future<List<Task>> getTasks() async {
+  Future<void> getTasks() async {
     final box = await Hive.openBox<Task>('main');
     // await box.clear();
 
@@ -36,11 +44,10 @@ class HomeController extends GetxController {
     // var specBox = await Hive.openBox('specs');
     // await specBox.clear();
 
-    List<Task> tasks = box.values.toList();
+    List<Task> taskData = box.values.toList();
 
     int late = 0, pending = 0, done = 0;
-
-    for (var task in tasks) {
+    for (var task in taskData) {
       DateTime taskDeadline = DateFormat('dd MMMM yyyy').parse(task.deadline!);
 
       if (taskDeadline.isBefore(DateTime.now())) {
@@ -63,6 +70,6 @@ class HomeController extends GetxController {
     talker.info('Task loaded successfully!');
     talker.debug({'tasksLen': tasks.length, 'statList': statList.value});
 
-    return tasks;
+    tasks.value = taskData;
   }
 }

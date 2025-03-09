@@ -62,7 +62,8 @@ class CategoryView extends GetView<CategoryController> {
                 final item = controller.specName[index];
                 return CategoryItem(
                   item: item,
-                  onDelete: () => controller.deleteSpec('name', item['code']),
+                  onDelete: () => controller.deleteSpec(
+                      'name', item['code'], item['title']),
                 );
               },
             );
@@ -74,7 +75,8 @@ class CategoryView extends GetView<CategoryController> {
                 final item = controller.specType[index];
                 return CategoryItem(
                   item: item,
-                  onDelete: () => controller.deleteSpec('type', item['code']),
+                  onDelete: () => controller.deleteSpec(
+                      'type', item['code'], item['title']),
                 );
               },
             );
@@ -86,8 +88,8 @@ class CategoryView extends GetView<CategoryController> {
                 final item = controller.specCollection[index];
                 return CategoryItem(
                   item: item,
-                  onDelete: () =>
-                      controller.deleteSpec('collection', item['code']),
+                  onDelete: () => controller.deleteSpec(
+                      'collection', item['code'], item['title']),
                 );
               },
             );

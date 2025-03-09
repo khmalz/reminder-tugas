@@ -23,40 +23,32 @@ class HomeView extends GetView<HomeController> {
           DropdownHome(talker: controller.talker),
         ],
       ),
-      body: FutureBuilder(
-          future: controller.getTasks(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(child: Text('Tidak ada tugas ditemukan.'));
-            } else {
-              var tugasList = snapshot.data!;
+      body: Obx(() {
+        if (controller.tasks.isEmpty) {
+          return Center(child: Text("Tidak ada tugas ditemukan."));
+        }
 
-              return ListView(
-                children: [
-                  ColumnStats(
-                    statList: controller.statList,
-                  ),
-                  Column(
-                    children: tugasList
-                        .map((tugas) => ListTugas(
-                              id: tugas.id!,
-                              namaTugas: tugas.name!,
-                              matkul: tugas.matkul!,
-                              tipe: tugas.type!,
-                              pengumpulan: tugas.collection!,
-                              deadline: tugas.deadline!,
-                              isDone: tugas.isDone,
-                            ))
-                        .toList(),
-                  ),
-                ],
-              );
-            }
-          }),
+        return ListView(
+          children: [
+            ColumnStats(
+              statList: controller.statList,
+            ),
+            Column(
+              children: controller.tasks
+                  .map((tugas) => ListTugas(
+                        id: tugas.id!,
+                        namaTugas: tugas.name!,
+                        matkul: tugas.matkul!,
+                        tipe: tugas.type!,
+                        pengumpulan: tugas.collection!,
+                        deadline: tugas.deadline!,
+                        isDone: tugas.isDone,
+                      ))
+                  .toList(),
+            ),
+          ],
+        );
+      }),
       floatingActionButton: FloatingAddButton(),
     );
   }
